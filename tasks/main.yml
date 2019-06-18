@@ -1,0 +1,44 @@
+---
+# tasks file for auditd
+- name: install requirements
+  package:
+    name: bash
+    state: present
+  register: auditd_register_requirements
+  until: auditd_register_requirements is succeeded
+  retries: 3
+
+- name: install audit
+  package:
+    name: "{{ auditd_packages }}"
+    state: present
+  register: auditd_install_auditd
+  until: auditd_install_auditd is succeeded
+  retries: 3
+
+- name: configure auditd
+  template:
+    src: "{{ auditd_config_file }}.j2"
+    dest: "{{ auditd_config_directory }}/{{ auditd_config_file }}"
+  notify:
+    - restart auditd
+
+- name: create rules.d directory
+  file:
+    path: "{{ auditd_config_directory }}/rules.d"
+    state: directory
+
+- name: place custom.rules
+  template:
+    src: custom.rules.j2
+    dest: "{{ auditd_config_directory }}/rules.d/custom.rules"
+  notify:
+    - run augenrules
+
+- name: start and enable auditd
+  service:
+    name: "{{ auditd_service }}"
+    state: started
+    enabled: yes
+  when:
+    - ansible_virtualization_type != "docker"

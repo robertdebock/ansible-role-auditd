@@ -1,0 +1,18 @@
+---
+# handlers file for auditd
+- name: run augenrules
+  command: augenrules
+  notify: load rules
+
+- name: load rules
+  command: augenrules --load
+  when:
+    - ansible_virtualization_type != "docker"
+
+- name: restart auditd
+  service:
+    name: "{{ auditd_service }}"
+    state: restarted
+    use: service
+  when:
+    - ansible_virtualization_type != "docker"

@@ -1,0 +1,17 @@
+{{ ansible_managed | comment }}
+
+-D
+-b {{ auditd_buffer_size }}
+-f {{ auditd_fail_mode }}
+
+{% if auditd_file_rules is defined %}
+{% for rule in auditd_file_rules %}
+-w {{ rule.file }}{% if rule.permissions is defined %} -p {% for permission in rule.permissions %}{{ _auditd_permissions[permission] }}{% endfor %}{% endif %} -k {{ rule.keyname }}
+{% endfor %}
+{% endif %}
+
+{% if auditd_syscall_rules is defined %}
+{% for rule in auditd_syscall_rules %}
+-a {{ rule.action }},{{ rule.list }} -S {{ rule.syscall }} -F {% for filter in rule.filters %}{{ filter }}{% endfor %} -k {{ rule.keyname }}
+{% endfor %}
+{% endif %}

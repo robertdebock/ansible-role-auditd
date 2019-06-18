@@ -1,0 +1,22 @@
+---
+# vars file for auditd
+auditd_packages:
+  - audit
+
+_auditd_config_directory:
+  default: /etc/audit
+
+auditd_config_directory: "{{ _auditd_config_directory[ansible_distribution] | default(_auditd_config_directory['default']) }}"
+
+auditd_config_file: auditd.conf
+
+_auditd_service:
+  default: auditd
+
+auditd_service: "{{ _auditd_service[ansible_distribution] | default(_auditd_service['default']) }}"
+
+_auditd_permissions:
+  read: r
+  write: w
+  execute: x
+  attribute_change: a

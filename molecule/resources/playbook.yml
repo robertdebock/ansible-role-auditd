@@ -1,0 +1,42 @@
+---
+- name: Converge
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - role: ansible-role-auditd
+      auditd_file_rules:
+        - file: /var/log/audit/
+          keyname: auditlog
+        - file: /etc/audit/
+          permissions:
+            - write
+            - attribute_change
+          keyname: auditconfig
+        - file: /etc/libaudit.conf
+          permissions:
+            - write
+            - attribute_change
+          keyname: auditconfig
+        - file: /etc/audisp/
+          permissions:
+            - write
+            - attribute_change
+          keyname: audispconfig
+        - file: /sbin/auditctl
+          permissions:
+            - execute
+          keyname: audittools
+        - file: /sbin/auditd
+          permissions:
+            - execute
+          keyname: audittools
+
+      auditd_syscall_rules:
+        - syscall: open
+          action: always
+          list: exit
+          filters:
+            - auid!=4294967295
+          keyname: my_keyname
