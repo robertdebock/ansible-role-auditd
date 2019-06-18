@@ -36,7 +36,15 @@
       auditd_syscall_rules:
         - syscall: open
           action: always
-          list: exit
+          filter: exit
           filters:
             - auid!=4294967295
           keyname: my_keyname
+        - syscall: adjtimex
+          action: always
+          filter: exit
+          keyname: time_change
+        - syscall: settimeofday
+          action: always
+          filter: exit
+          keyname: time_change

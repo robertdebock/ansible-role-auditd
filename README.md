@@ -49,10 +49,18 @@ This example is taken from `molecule/resources/playbook.yml`:
       auditd_syscall_rules:
         - syscall: open
           action: always
-          list: exit
+          filter: exit
           filters:
             - auid!=4294967295
           keyname: my_keyname
+        - syscall: adjtimex
+          action: always
+          filter: exit
+          keyname: time_change
+        - syscall: settimeofday
+          action: always
+          filter: exit
+          keyname: time_change
 ```
 
 The machine you are running this on, may need to be prepared.
