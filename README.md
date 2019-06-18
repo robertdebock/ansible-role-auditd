@@ -140,17 +140,17 @@ This role has been tested against the following distributions and Ansible versio
 
 |distribution|ansible 2.7|ansible 2.8|ansible devel|
 |------------|-----------|-----------|-------------|
-|alpine-edge*|no|yes|yes*|
-|alpine-latest|no|yes|yes*|
-|archlinux|no|no|no*|
-|centos-6|no|yes|yes*|
-|centos-latest|no|yes|yes*|
+|alpine-edge*|yes|yes|yes*|
+|alpine-latest|yes|yes|yes*|
+|archlinux|yes|yes|yes*|
+|centos-6|yes|yes|yes*|
+|centos-latest|yes|yes|yes*|
 |debian-latest|no|no|no*|
 |debian-stable|no|no|no*|
 |debian-unstable*|no|no|no*|
-|fedora-latest|no|yes|yes*|
-|fedora-rawhide*|no|yes|yes*|
-|opensuse-leap|no|yes|yes*|
+|fedora-latest|yes|yes|yes*|
+|fedora-rawhide*|yes|yes|yes*|
+|opensuse-leap|yes|yes|yes*|
 |ubuntu-devel*|no|no|no*|
 |ubuntu-latest|no|no|no*|
 |ubuntu-rolling|no|no|no*|
