@@ -12,6 +12,6 @@
 
 {% if auditd_syscall_rules is defined %}
 {% for rule in auditd_syscall_rules %}
--a {{ rule.action }},{{ rule.filter }} -S {{ rule.syscall }} -F {% for filter in rule.filters %}{{ filter }}{% endfor %} -k {{ rule.keyname }}
+-a {{ rule.action }},{{ rule.filter }} -S {{ rule.syscall }}{% if rule.filters is defined %} -F {% for filter in rule.filters %}{{ filter }}{% endfor %}{% endif %} -k {{ rule.keyname }}
 {% endfor %}
 {% endif %}
