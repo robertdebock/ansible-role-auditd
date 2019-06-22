@@ -4,14 +4,14 @@
 -b {{ auditd_buffer_size }}
 -f {{ auditd_fail_mode }}
 
-{% if auditd_file_rules is defined %}
-{% for rule in auditd_file_rules %}
+{% if auditd_rules is defined %}
+{% for rule in auditd_rules %}
+{% if rule.file is defined %}
 -w {{ rule.file }}{% if rule.permissions is defined %} -p {% for permission in rule.permissions %}{{ _auditd_permissions[permission] }}{% endfor %}{% endif %} -k {{ rule.keyname }}
-{% endfor %}
 {% endif %}
 
-{% if auditd_syscall_rules is defined %}
-{% for rule in auditd_syscall_rules %}
+{% if rule.syscall is defined %}
 -a {{ rule.action }},{{ rule.filter }} -S {{ rule.syscall }}{% if rule.filters is defined %} -F {% for filter in rule.filters %}{{ filter }}{% endfor %}{% endif %} -k {{ rule.keyname }}
+{% endif %}
 {% endfor %}
 {% endif %}
