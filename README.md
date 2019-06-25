@@ -19,7 +19,7 @@ This example is taken from `molecule/resources/playbook.yml`:
 
   roles:
     - role: robertdebock.auditd
-      auditd_file_rules:
+      auditd_rules:
         - file: /var/log/audit/
           keyname: auditlog
         - file: /etc/audit/
@@ -45,8 +45,6 @@ This example is taken from `molecule/resources/playbook.yml`:
           permissions:
             - execute
           keyname: audittools
-
-      auditd_syscall_rules:
         - syscall: open
           action: always
           filter: exit
