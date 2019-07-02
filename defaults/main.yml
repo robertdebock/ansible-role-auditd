@@ -3,8 +3,8 @@
 auditd_buffer_size: 32768
 auditd_fail_mode: 1
 
-auditd_local_events: yes
-auditd_write_logs: yes
+auditd_local_events: "yes"
+auditd_write_logs: "yes"
 auditd_log_file: /var/log/audit/audit.log
 auditd_log_group: root
 auditd_log_format: RAW
@@ -19,16 +19,16 @@ auditd_name_format: NONE
 auditd_max_log_file_action: ROTATE
 auditd_space_left: 75
 auditd_space_left_action: SYSLOG
-auditd_verify_email: yes
+auditd_verify_email: "yes"
 auditd_action_mail_acct: root
 auditd_admin_space_left: 50
 auditd_admin_space_left_action: SUSPEND
 auditd_disk_full_action: SUSPEND
 auditd_disk_error_action: SUSPEND
-auditd_use_libwrap: yes
+auditd_use_libwrap: "yes"
 auditd_tcp_listen_queue: 5
 auditd_tcp_max_per_addr: 1
 auditd_tcp_client_max_idle: 0
-auditd_enable_krb5: no
+auditd_enable_krb5: "no"
 auditd_krb5_principal: auditd
-auditd_distribute_network: no
+auditd_distribute_network: "no"
