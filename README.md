@@ -161,14 +161,14 @@ This role has been tested against the following distributions and Ansible versio
 |archlinux|yes|yes|yes*|
 |centos-6|yes|yes|yes*|
 |centos-latest|yes|yes|yes*|
-|debian-stable|no|no|no*|
-|debian-unstable*|no|no|no*|
+|debian-stable|yes|yes|yes*|
+|debian-unstable*|yes|yes|yes*|
 |fedora-latest|yes|yes|yes*|
 |fedora-rawhide*|yes|yes|yes*|
 |opensuse-leap|yes|yes|yes*|
-|ubuntu-devel*|no|no|no*|
-|ubuntu-latest|no|no|no*|
-|ubuntu-rolling|no|no|no*|
+|ubuntu-devel*|yes|yes|yes*|
+|ubuntu-latest|no|no|yes*|
+|ubuntu-rolling|no|no|yes*|
 
 A single star means the build may fail, it's marked as an experimental build.
 
