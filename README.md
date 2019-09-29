@@ -167,8 +167,8 @@ This role has been tested against the following distributions and Ansible versio
 |fedora-rawhide*|yes|yes|yes*|
 |opensuse-leap|yes|yes|yes*|
 |ubuntu-devel*|yes|yes|yes*|
-|ubuntu-latest|no|no|yes*|
-|ubuntu-rolling|no|no|yes*|
+|ubuntu-latest|yes|yes|yes*|
+|ubuntu-rolling|yes|yes|yes*|
 
 A single star means the build may fail, it's marked as an experimental build.
 
