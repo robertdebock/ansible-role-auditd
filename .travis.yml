@@ -1,89 +1,51 @@
 ---
-sudo: required
 language: python
-services: docker
+
+python:
+  - "3.7"
+
+services:
+  - docker
 
 env:
-  - version=">=2.7,<2.8" distro="alpine-latest"
-  - version="" distro="alpine-latest"
-  - version="devel" distro="alpine-latest"
-  - version=">=2.7,<2.8" distro="alpine-edge"
-  - version="" distro="alpine-edge"
-  - version="devel" distro="alpine-edge"
-  - version=">=2.7,<2.8" distro="archlinux"
-  - version="" distro="archlinux"
-  - version="devel" distro="archlinux"
-  - version=">=2.7,<2.8" distro="centos-7"
-  - version="" distro="centos-7"
-  - version="devel" distro="centos-7"
-  - version=">=2.7,<2.8" distro="centos-latest"
-  - version="" distro="centos-latest"
-  - version="devel" distro="centos-latest"
-  - version=">=2.7,<2.8" distro="debian-stable"
-  - version="" distro="debian-stable"
-  - version="devel" distro="debian-stable"
-  - version=">=2.7,<2.8" distro="debian-unstable"
-  - version="" distro="debian-unstable"
-  - version="devel" distro="debian-unstable"
-  - version=">=2.7,<2.8" distro="fedora-latest"
-  - version="" distro="fedora-latest"
-  - version="devel" distro="fedora-latest"
-  - version=">=2.7,<2.8" distro="fedora-rawhide"
-  - version="" distro="fedora-rawhide"
-  - version="devel" distro="fedora-rawhide"
-  - version=">=2.7,<2.8" distro="opensuse-leap"
-  - version="" distro="opensuse-leap"
-  - version="devel" distro="opensuse-leap"
-  - version=">=2.7,<2.8" distro="ubuntu-rolling"
-  - version="" distro="ubuntu-rolling"
-  - version="devel" distro="ubuntu-rolling"
-  - version=">=2.7,<2.8" distro="ubuntu-latest"
-  - version="" distro="ubuntu-latest"
-  - version="devel" distro="ubuntu-latest"
-  - version=">=2.7,<2.8" distro="ubuntu-devel"
-  - version="" distro="ubuntu-devel"
-  - version="devel" distro="ubuntu-devel"
+  global:
+    - namespace="robertdebock/"
+  matrix:
+    - image="docker-alpine-openrc"
+    - image="docker-alpine-openrc" tag="edge"
+    # - namespace="archlinux/" image="base"
+    - image="docker-centos-systemd" tag="7"
+    - image="docker-centos-systemd"
+    - image="docker-debian-systemd" tag="stable"
+    - image="docker-debian-systemd" tag="unstable"
+    - image="docker-debian-systemd"
+    - image="docker-fedora-systemd"
+    - image="docker-fedora-systemd" tag="rawhide"
+    - namespace="opensuse/" image="leap"
+    - image="docker-ubuntu-systemd" tag="rolling"
+    - image="docker-ubuntu-systemd" tag="devel"
+    - image="docker-ubuntu-systemd"
 
 matrix:
   allow_failures:
-    - env: version=">=2.7,<2.8" distro="alpine-edge"
-    - env: version="" distro="alpine-edge"
-    - env: version="devel" distro="alpine-edge"
-    - env: version="devel" distro="alpine-latest"
-    - env: version="devel" distro="archlinux"
-    - env: version="devel" distro="centos-7"
-    - env: version="devel" distro="centos-latest"
-    - env: version="devel" distro="debian-stable"
-    - env: version=">=2.7,<2.8" distro="debian-unstable"
-    - env: version="" distro="debian-unstable"
-    - env: version="devel" distro="debian-unstable"
-    - env: version="devel" distro="fedora-latest"
-    - env: version=">=2.7,<2.8" distro="fedora-rawhide"
-    - env: version="" distro="fedora-rawhide"
-    - env: version="devel" distro="fedora-rawhide"
-    - env: version="devel" distro="opensuse-leap"
-    - env: version="devel" distro="ubuntu-rolling"
-    - env: version=">=2.7,<2.8" distro="ubuntu-devel"
-    - env: version="" distro="ubuntu-devel"
-    - env: version="devel" distro="ubuntu-devel"
-    - env: version="devel" distro="ubuntu-latest"
+    - env: image="docker-alpine-openrc" tag="edge"
+    - env: image="docker-debian-systemd" tag="unstable"
+    - env: image="docker-fedora-systemd" tag="rawhide"
+    - env: image="docker-ubuntu-systemd" tag="rolling"
+    - env: image="docker-ubuntu-systemd" tag="devel"
 
 cache:
   - pip
 
 install:
   - pip install --upgrade pip
-  - if [ "${version}" != "devel" ] ; then pip install ansible"${version}" ; fi
-  - if [ "${version}" = "devel" ] ; then pip install git+https://github.com/ansible/ansible.git@devel ; fi
-  - pip install molecule
-  - pip install docker
+  - pip install tox
 
 script:
-  - if [ "${expectation}" = "fail" ] ; then ! molecule test --scenario-name "${distro}" ; else molecule test --scenario-name "${distro}" ; fi
+  - tox --parallel all
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
   slack:
     secure: "ngWhQTK/99TuvxV9XVU3Fdb5HCu2uipbDr1YOGPKeBcUqV2K0h2qYhTay410c6l+rbHQqdzVDArp6Jjd/ZiSH48Va5JuUXWJvS/wx+1NC2FXlbySL5GN7SzXh0Qp37u/bAybeMA7AuOo6OiuBZsNOandTJuhdmm4wyMRMWwwlm4HGMicLFH9ymb5J8XTXe1/a4iMJKR/iLvxvGgnTbdVzEo9pZcBXrRa6uWEV2hqoX0CZmLO5/ZXcL6O53fwpi39/KEqzSwW8Hl0w1yEjsbzG+Hi0rONySRyvOK+YYHLfQdwTsVjr0Q8iXf4Zbsn1p25p9VECxmtQW6tpxgEYnmgmJqAfxw3uIGE+81GCbsRh3QyHaxtVZntURLqA67QSOGYSQziJmmW/nA/VU8+H9UllVUH1QgZ8G/D2aGaBJ0uahn2mW9868B7I1znRuwfhN23ZOSsxjNt6yaRvxmfCfbd7atsEpG3ORsGWDP2w8ZPtxy9Dj5Sn1h+GkqosrJBsZTMv99ZussPNBUgnHUjh9ZIkH3LGXx8OUbK/uzljDXzUL/+T/Xdx6pojoM4KsP8wuM7rGRBsMh6qCY56GV3QTYuHnw2W093gavhOMLDrOD95m2CnY6vj+ETck8iMTD8zv9w22L5ziabq8IS9AS4qRBV5HQusKmoZvswBpVD+XjLXh8="
-
   email: false
