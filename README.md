@@ -22,6 +22,7 @@ This example is taken from `molecule/resources/playbook.yml`:
 
   roles:
     - role: robertdebock.auditd
+      auditd_local_events: "no"
       auditd_rules:
         - file: /var/log/audit/
           keyname: auditlog
