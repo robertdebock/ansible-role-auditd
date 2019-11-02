@@ -1,0 +1,4 @@
+---
+exceptions:
+  - variation: Alpine
+    reason: "/sbin/auditd does not exist"

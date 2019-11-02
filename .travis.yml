@@ -11,8 +11,6 @@ env:
   global:
     namespace="robertdebock"
   matrix:
-    - image="alpine"
-    - image="alpine" tag="edge"
     # - namespace="archlinux" image="base"
     - image="debian" tag="stable"
     - image="debian" tag="unstable"
@@ -28,7 +26,6 @@ env:
 
 matrix:
   allow_failures:
-    - env: image="alpine" tag="edge"
     - env: image="debian" tag="unstable"
     - env: image="fedora" tag="rawhide"
     - env: image="ubuntu" tag="rolling"
