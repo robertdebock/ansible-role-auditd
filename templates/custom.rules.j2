@@ -1,7 +1,10 @@
 {{ ansible_managed | comment }}
 
+# Delete all previous rules
 -D
+# Set buffer size
 -b {{ auditd_buffer_size }}
+# set failure behavior
 -f {{ auditd_fail_mode }}
 
 {% if auditd_rules is defined %}
@@ -9,7 +12,6 @@
 {% if rule.file is defined %}
 -w {{ rule.file }}{% if rule.permissions is defined %} -p {% for permission in rule.permissions %}{{ _auditd_permissions[permission] }}{% endfor %}{% endif %} -k {{ rule.keyname }}
 {% endif %}
-
 {% if rule.syscall is defined %}
 -a {{ rule.action }},{{ rule.filter }} -S {{ rule.syscall }}{% if rule.filters is defined %} -F {% for filter in rule.filters %}{{ filter }}{% endfor %}{% endif %} -k {{ rule.keyname }}
 {% endif %}
