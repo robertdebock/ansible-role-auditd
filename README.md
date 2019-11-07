@@ -147,7 +147,6 @@ This role has been tested on these [container images](https://hub.docker.com/):
 
 |container|tag|allow_failures|
 |---------|---|--------------|
-|amazonlinux|1|no|
 |amazonlinux|latest|no|
 |debian|unstable|yes|
 |debian|latest|no|
@@ -172,6 +171,7 @@ Some variarations of the build matrix do not work. These are the variations and 
 | variation                 | reason                 |
 |---------------------------|------------------------|
 | Alpine | /sbin/auditd does not exist |
+| amazonlinux:1 | /etc/init.d/auditd: line 32: /etc/init.d/functions: No such file or directory |
 
 
 
