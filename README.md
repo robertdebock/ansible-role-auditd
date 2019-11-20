@@ -85,6 +85,8 @@ These variables are set in `defaults/main.yml`:
 # defaults file for auditd
 auditd_buffer_size: 32768
 auditd_fail_mode: 1
+auditd_maximum_rate: 60
+auditd_enable_flag: 1
 
 auditd_local_events: "yes"
 auditd_write_logs: "yes"

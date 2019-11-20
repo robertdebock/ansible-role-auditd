@@ -4,8 +4,12 @@
 -D
 # Set buffer size
 -b {{ auditd_buffer_size }}
-# set failure behavior
+# Set failure behavior
 -f {{ auditd_fail_mode }}
+# Set the maximum amount of messages per second
+-r {{ auditd_maximum_rate }}
+# Set enable flag (0=disable, 1=enable, 2=locked, requires reboot to unlock)
+-e {{ auditd_enable_flag }}
 
 {% if auditd_rules is defined %}
 {% for rule in auditd_rules %}
