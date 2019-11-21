@@ -36,7 +36,6 @@ galaxy_info:
     - auditd
     - archlinux
     - centos
-    - debian
     - el
     - fedora
     - opensuse
