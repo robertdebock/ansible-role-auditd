@@ -30,7 +30,6 @@ jobs:
       matrix:
         image:
           - amazonlinux
-          - archlinux
           - debian
           - centos
           - fedora
