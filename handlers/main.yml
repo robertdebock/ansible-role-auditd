@@ -8,6 +8,7 @@
   command: augenrules --load
   when:
     - ansible_virtualization_type != "docker"
+    - ansible_virtualization_type != "container"
 
 - name: restart auditd
   service:
