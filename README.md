@@ -129,6 +129,8 @@ auditd_tcp_client_max_idle: 0
 auditd_enable_krb5: "no"
 auditd_krb5_principal: auditd
 auditd_distribute_network: "no"
+
+auditd_manage_rules: true
 ```
 
 Requirements
