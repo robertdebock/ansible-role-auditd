@@ -34,6 +34,8 @@
     dest: "{{ auditd_config_directory }}/rules.d/custom.rules"
   notify:
     - run augenrules
+  when:
+    - auditd_manage_rules
 
 - name: start and enable auditd
   service:
