@@ -70,7 +70,7 @@ The machine may need to be prepared using `molecule/resources/prepare.yml`:
   gather_facts: no
 
   roles:
-    - robertdebock.bootstrap
+    - role: robertdebock.bootstrap
 ```
 
 For verification `molecule/resources/verify.yml` run after the role has been applied.
@@ -156,7 +156,6 @@ This role has been tested on these [container images](https://hub.docker.com/):
 
 |container|tags|
 |---------|----|
-|amazon|Candidate|
 |debian|all|
 |el|7, 8|
 |fedora|all|
