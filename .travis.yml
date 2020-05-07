@@ -23,7 +23,7 @@ env:
     - image="fedora" tag="rawhide"
     - image="opensuse" tag="latest"
     - image="ubuntu" tag="latest"
-    - image="ubuntu" tag="1804"
+    - image="ubuntu" tag="bionic"
 
 cache:
   - pip
