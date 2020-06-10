@@ -127,7 +127,7 @@ auditd_enable_krb5: "no"
 auditd_krb5_principal: auditd
 auditd_distribute_network: "no"
 
-auditd_manage_rules: true
+auditd_manage_rules: yes
 ```
 
 ## [Requirements](#requirements)
