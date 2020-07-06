@@ -94,6 +94,7 @@ These variables are set in `defaults/main.yml`:
 ```yaml
 ---
 # defaults file for auditd
+
 auditd_buffer_size: 32768
 auditd_fail_mode: 1
 auditd_maximum_rate: 60
