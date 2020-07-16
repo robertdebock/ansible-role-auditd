@@ -7,17 +7,11 @@
   package:
     name: bash
     state: present
-  register: auditd_register_requirements
-  until: auditd_register_requirements is succeeded
-  retries: 3
 
 - name: install audit
   package:
     name: "{{ auditd_packages }}"
     state: present
-  register: auditd_install_auditd
-  until: auditd_install_auditd is succeeded
-  retries: 3
 
 - name: configure auditd
   template:
