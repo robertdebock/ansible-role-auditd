@@ -33,10 +33,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - image: "alpine"
-            tag: "latest"
-          - image: "alpine"
-            tag: "edge"
           - image: "centos"
             tag: "7"
           - image: "centos"

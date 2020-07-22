@@ -157,7 +157,6 @@ This role has been tested on these [container images](https://hub.docker.com/u/r
 
 |container|tags|
 |---------|----|
-|alpine|all|
 |el|7, 8|
 |debian|buster, bullseye|
 |fedora|31, 32|
@@ -176,7 +175,7 @@ Some variarations of the build matrix do not work. These are the variations and 
 
 | variation                 | reason                 |
 |---------------------------|------------------------|
-| Alpine | /sbin/auditd does not exist |
+| alpine | auditd start-stop-daemon: /sbin/auditd does not exist |
 | amazonlinux:1 | /etc/init.d/auditd: line 32: /etc/init.d/functions: No such file or directory |
 
 
