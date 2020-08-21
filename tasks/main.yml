@@ -17,6 +17,7 @@
   template:
     src: "{{ auditd_config_file }}.j2"
     dest: "{{ auditd_config_directory }}/{{ auditd_config_file }}"
+    mode: "0640"
   notify:
     - restart auditd
 
@@ -24,11 +25,13 @@
   file:
     path: "{{ auditd_config_directory }}/rules.d"
     state: directory
+    mode: "0750"
 
 - name: place custom.rules
   template:
     src: custom.rules.j2
     dest: "{{ auditd_config_directory }}/rules.d/custom.rules"
+    mode: "0666"
   notify:
     - run augenrules
   when:
