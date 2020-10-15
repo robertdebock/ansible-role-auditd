@@ -5,3 +5,4 @@
 repository:
   description: Install and configure auditd on your system.
   homepage: https://robertdebock.nl/
+  topics: auditd, hacktoberfest
