@@ -246,3 +246,53 @@
       - auditd_manage_rules is defined
       - auditd_manage_rules | type_debug == "bool"
     quiet: yes
+
+- name: test if auditd_rules is set correctly
+  assert:
+    that:
+      - auditd_rules is iterable
+    quiet: yes
+  when:
+    - auditd_rules is defined
+
+- name: test if item in auditd_rules is set correctly
+  assert:
+    that:
+      - item.file | length > 0
+      - item.keyname is defined
+      - item.keyname | length > 0
+    quiet: yes
+  loop: "{{ auditd_rules }}"
+  loop_control:
+    label: "{{ item.file }}"
+  when:
+    - auditd_rules is defined
+    - item.file is defined
+
+- name: test if item.permission in auditd_rules is set correctly
+  assert:
+    that:
+      - item.permission in ["attribute_change", "execute", "read", "write"]
+    quiet: yes
+  loop: "{{ auditd_rules }}"
+  loop_control:
+    label: "{{ item.file }}"
+  when:
+    - auditd_rules is defined
+    - item.permission is defined
+
+- name: test if item in auditd_rules is set correctly
+  assert:
+    that:
+      - item.syscall | length > 0
+      - item.action is defined
+      - item.action in ["always", "never"]
+      - item.filter is defined
+      - item.filter in ["exclude", "exit", "user"]
+    quiet: yes
+  loop: "{{ auditd_rules }}"
+  loop_control:
+    label: "{{ item.file }}"
+  when:
+    - auditd_rules is defined
+    - item.syscall is defined

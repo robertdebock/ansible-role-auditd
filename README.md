@@ -51,6 +51,7 @@ This example is taken from `molecule/resources/converge.yml` and is tested on ea
           filters:
             - auid!=4294967295
           keyname: my_keyname
+          arch: b32
         - syscall: adjtimex
           action: always
           filter: exit
@@ -129,6 +130,8 @@ auditd_krb5_principal: auditd
 auditd_distribute_network: "no"
 
 auditd_manage_rules: yes
+
+auditd_default_arch: b64
 ```
 
 ## [Requirements](#requirements)
