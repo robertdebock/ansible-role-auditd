@@ -13,4 +13,4 @@
   service:
     name: "{{ auditd_service }}"
     state: restarted
-    use: service
+    use: service  # systemctl can't restart auditd, service can: https://access.redhat.com/solutions/2664811
