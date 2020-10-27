@@ -292,7 +292,7 @@
     quiet: yes
   loop: "{{ auditd_rules }}"
   loop_control:
-    label: "{{ item.file }}"
+    label: "{{ item.syscall }}"
   when:
     - auditd_rules is defined
     - item.syscall is defined
