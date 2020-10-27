@@ -264,7 +264,7 @@
     quiet: yes
   loop: "{{ auditd_rules }}"
   loop_control:
-    label: "{{ item.file }}"
+    label: "{{ item.file | default('none') }}"
   when:
     - auditd_rules is defined
     - item.file is defined
@@ -276,7 +276,7 @@
     quiet: yes
   loop: "{{ auditd_rules }}"
   loop_control:
-    label: "{{ item.file }}"
+    label: "{{ item.file | default('none') }}"
   when:
     - auditd_rules is defined
     - item.permission is defined
@@ -292,7 +292,7 @@
     quiet: yes
   loop: "{{ auditd_rules }}"
   loop_control:
-    label: "{{ item.syscall }}"
+    label: "{{ item.syscall | default('none') }}"
   when:
     - auditd_rules is defined
     - item.syscall is defined
