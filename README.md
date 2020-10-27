@@ -50,6 +50,7 @@ This example is taken from `molecule/resources/converge.yml` and is tested on ea
           filter: exit
           filters:
             - auid!=4294967295
+            - auid!=unset
           keyname: my_keyname
           arch: b32
         - syscall: adjtimex
