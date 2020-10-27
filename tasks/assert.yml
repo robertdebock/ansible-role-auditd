@@ -296,3 +296,15 @@
   when:
     - auditd_rules is defined
     - item.syscall is defined
+
+- name: test if item.filters in auditd_rules is set correctly
+  assert:
+    that:
+      - item.filters is iterable
+    quiet: yes
+  loop: "{{ auditd_rules }}"
+  loop_control:
+    label: "{{ item.file | default('none') }}"
+  when:
+    - auditd_rules is defined
+    - item.filters is defined
