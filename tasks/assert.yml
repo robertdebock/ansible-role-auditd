@@ -3,6 +3,7 @@
   assert:
     that:
       - auditd_buffer_size is defined
+      - auditd_buffer_size is number
       - auditd_buffer_size | int >= 0
       - auditd_buffer_size | int <= 65000
     quiet: yes
@@ -11,7 +12,7 @@
   assert:
     that:
       - auditd_fail_mode is defined
-      - auditd_fail_mode | int
+      - auditd_fail_mode is number
       - auditd_fail_mode in [ 0, 1, 2 ]
     quiet: yes
 
@@ -19,6 +20,7 @@
   assert:
     that:
       - auditd_maximum_rate is defined
+      - auditd_maximum_rate is number
       - auditd_maximum_rate | int >= 0
     quiet: yes
 
@@ -26,7 +28,7 @@
   assert:
     that:
       - auditd_enable_flag is defined
-      - auditd_enable_flag | int
+      - auditd_enable_flag is number
       - auditd_enable_flag in [ 0, 1, 2 ]
     quiet: yes
 
@@ -80,6 +82,7 @@
   assert:
     that:
       - auditd_freq is defined
+      - auditd_freq is number
       - auditd_freq | int >= 0
     quiet: yes
 
@@ -87,7 +90,7 @@
   assert:
     that:
       - auditd_max_log_file is defined
-      - auditd_max_log_file | int
+      - auditd_max_log_file is number
       - auditd_max_log_file | int > 0
     quiet: yes
 
@@ -95,7 +98,7 @@
   assert:
     that:
       - auditd_num_logs is defined
-      - auditd_num_logs | int
+      - auditd_num_logs is number
       - auditd_num_logs | int > 0
       - auditd_num_logs | int < 99
     quiet: yes
@@ -104,7 +107,7 @@
   assert:
     that:
       - auditd_priority_boost is defined
-      - auditd_priority_boost | int
+      - auditd_priority_boost is number
       - auditd_priority_boost in [ 0, 1, 2, 3, 4 ]
     quiet: yes
 
@@ -128,6 +131,7 @@
   assert:
     that:
       - auditd_space_left is defined
+      - auditd_space_left is number
       - auditd_space_left | int >= 0
       - auditd_space_left | int <= 100
     quiet: yes
@@ -159,6 +163,7 @@
   assert:
     that:
       - auditd_admin_space_left is defined
+      - auditd_admin_space_left is number
       - auditd_admin_space_left | int >= 0
       - auditd_admin_space_left | int <= 100
     quiet: yes
@@ -199,6 +204,7 @@
   assert:
     that:
       - auditd_tcp_listen_queue is defined
+      - auditd_tcp_listen_queue is number
       - auditd_tcp_listen_queue | int >= 0
     quiet: yes
 
@@ -206,6 +212,7 @@
   assert:
     that:
       - auditd_tcp_max_per_addr is defined
+      - auditd_tcp_max_per_addr is number
       - auditd_tcp_max_per_addr | int >= 0
       - auditd_tcp_max_per_addr | int <= 1024
     quiet: yes
@@ -214,6 +221,7 @@
   assert:
     that:
       - auditd_tcp_client_max_idle is defined
+      - auditd_tcp_client_max_idle is number
       - auditd_tcp_client_max_idle | int >= 0
     quiet: yes
 
