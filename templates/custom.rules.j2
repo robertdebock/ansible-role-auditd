@@ -14,10 +14,13 @@
 {% if auditd_rules is defined %}
 {% for rule in auditd_rules %}
 {% if rule.file is defined %}
--w {{ rule.file }}{% if rule.permissions is defined %} -p {% for permission in rule.permissions %}{{ _auditd_permissions[permission] }}{% endfor %}{% endif %} -k {{ rule.keyname }}
+-w {{ rule.file }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %}{% if rule.permissions is defined %} -p {% for permission in rule.permissions %}{{ _auditd_permissions[permission] }}{% endfor %}{% endif %} -k {{ rule.keyname }}
 {% endif %}
 {% if rule.syscall is defined %}
- -a {{ rule.action }},{{ rule.filter }} -F arch={{ rule.arch | default(auditd_default_arch) }} -S {{ rule.syscall }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %} -k {{ rule.keyname }}
+-a {{ rule.action }},{{ rule.filter }} -F arch={{ rule.arch | default(auditd_default_arch) }} -S {{ rule.syscall }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %} -k {{ rule.keyname }}
+{% endif %}
+{% if rule.action is defined and rule.file is not defined and rule.syscall is not defined %}
+-a {{ rule.action }},{{ rule.filter }}{% for filter in rule.filters %} -F {{ filter }}{% endfor %} -k {{ rule.keyname }}
 {% endif %}
 {% endfor %}
 {% endif %}

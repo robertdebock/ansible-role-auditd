@@ -61,6 +61,14 @@ This example is taken from `molecule/resources/converge.yml` and is tested on ea
           action: always
           filter: exit
           keyname: time_change
+        - action: always
+          filter: exit
+          filters:
+            - path=/bin/ping
+            - perm=x
+            - auid>=500
+            - auid!=4294967295
+          keyname: privileged
 ```
 
 The machine needs to be prepared in CI this is done using `molecule/resources/prepare.yml`:

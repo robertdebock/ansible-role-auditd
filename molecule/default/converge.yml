@@ -49,3 +49,11 @@
           action: always
           filter: exit
           keyname: time_change
+        - action: always
+          filter: exit
+          filters:
+            - path=/bin/ping
+            - perm=x
+            - auid>=500
+            - auid!=4294967295
+          keyname: privileged
