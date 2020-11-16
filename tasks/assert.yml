@@ -36,7 +36,6 @@
   assert:
     that:
       - auditd_local_events is defined
-      - auditd_local_events | length > 0
       - auditd_local_events in [ "yes", "no" ]
     quiet: yes
 
@@ -44,7 +43,6 @@
   assert:
     that:
       - auditd_write_logs is defined
-      - auditd_write_logs | length > 0
       - auditd_write_logs in [ "yes", "no" ]
     quiet: yes
 
@@ -52,21 +50,18 @@
   assert:
     that:
       - auditd_log_file is defined
-      - auditd_log_file | length > 0
     quiet: yes
 
 - name: test if auditd_log_group is set correctly
   assert:
     that:
       - auditd_log_group is defined
-      - auditd_log_group | length > 0
     quiet: yes
 
 - name: test if auditd_log_format is set correctly
   assert:
     that:
       - auditd_log_format is defined
-      - auditd_log_format | length > 0
       - auditd_log_format in [ "ENRICH", "NOLOG", "RAW" ]
     quiet: yes
 
@@ -74,7 +69,6 @@
   assert:
     that:
       - auditd_flush is defined
-      - auditd_flush | length > 0
       - auditd_flush in [ "none", "incremental", "incremental_async", "data", "sync" ]
     quiet: yes
 
@@ -115,7 +109,6 @@
   assert:
     that:
       - auditd_name_format is defined
-      - auditd_name_format | length > 0
       - auditd_name_format in [ "none", "hostname", "fqd", "numeric", "user" ]
     quiet: yes
 
@@ -123,7 +116,6 @@
   assert:
     that:
       - auditd_max_log_file_action is defined
-      - auditd_max_log_file_action | length > 0
       - auditd_max_log_file_action in [ "ignore", "syslog", "suspend", "rotate" ]
     quiet: yes
 
@@ -140,7 +132,6 @@
   assert:
     that:
       - auditd_space_left_action is defined
-      - auditd_space_left_action | length > 0
       - auditd_space_left_action in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
@@ -148,7 +139,6 @@
   assert:
     that:
       - auditd_verify_email is defined
-      - auditd_verify_email | length > 0
       - auditd_verify_email in [ "yes", "no" ]
     quiet: yes
 
@@ -156,7 +146,6 @@
   assert:
     that:
       - auditd_action_mail_acct is defined
-      - auditd_action_mail_acct | length > 0
     quiet: yes
 
 - name: test if auditd_admin_space_left is set correctly
@@ -172,7 +161,6 @@
   assert:
     that:
       - auditd_admin_space_left_action is defined
-      - auditd_admin_space_left_action | length > 0
       - auditd_admin_space_left_action in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
@@ -180,7 +168,6 @@
   assert:
     that:
       - auditd_disk_full_action is defined
-      - auditd_disk_full_action | length > 0
       - auditd_disk_full_action in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
@@ -188,7 +175,6 @@
   assert:
     that:
       - auditd_disk_error_action is defined
-      - auditd_disk_error_action | length > 0
       - auditd_disk_error_action in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
@@ -196,7 +182,6 @@
   assert:
     that:
       - auditd_use_libwrap is defined
-      - auditd_use_libwrap | length > 0
       - auditd_use_libwrap in [ "yes", "no" ]
     quiet: yes
 
@@ -229,7 +214,6 @@
   assert:
     that:
       - auditd_enable_krb5 is defined
-      - auditd_enable_krb5 | length > 0
       - auditd_enable_krb5 in [ "yes", "no" ]
     quiet: yes
 
@@ -237,14 +221,12 @@
   assert:
     that:
       - auditd_krb5_principal is defined
-      - auditd_krb5_principal | length > 0
     quiet: yes
 
 - name: test if auditd_distribute_network is set correctly
   assert:
     that:
       - auditd_distribute_network is defined
-      - auditd_distribute_network | length > 0
       - auditd_distribute_network in [ "yes", "no" ]
     quiet: yes
 
@@ -266,9 +248,7 @@
 - name: test if item in auditd_rules is set correctly
   assert:
     that:
-      - item.file | length > 0
       - item.keyname is defined
-      - item.keyname | length > 0
     quiet: yes
   loop: "{{ auditd_rules }}"
   loop_control:
@@ -292,7 +272,6 @@
 - name: test if item in auditd_rules is set correctly
   assert:
     that:
-      - item.syscall | length > 0
       - item.action is defined
       - item.action in [ "always", "never" ]
       - item.filter is defined
