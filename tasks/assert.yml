@@ -252,7 +252,7 @@
   assert:
     that:
       - auditd_manage_rules is defined
-      - auditd_manage_rules | type_debug == "bool"
+      - auditd_manage_rules is boolean
     quiet: yes
 
 - name: test if auditd_rules is set correctly
