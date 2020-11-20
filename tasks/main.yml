@@ -32,7 +32,7 @@
   template:
     src: custom.rules.j2
     dest: "{{ auditd_config_directory }}/rules.d/custom.rules"
-    mode: "0666"
+    mode: "0664"
   notify:
     - run augenrules
   when:
