@@ -1,5 +1,6 @@
 ---
 # handlers file for auditd
+
 - name: run augenrules
   command: augenrules
   notify: load rules
@@ -14,3 +15,5 @@
     name: "{{ auditd_service }}"
     state: restarted
     use: service  # systemctl can't restart auditd, service can: https://access.redhat.com/solutions/2664811
+  when:
+    - not ansible_check_mode | bool
