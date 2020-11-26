@@ -1,4 +1,5 @@
 ---
+
 - name: test if auditd_buffer_size is set correctly
   assert:
     that:
