@@ -37,6 +37,7 @@
   assert:
     that:
       - auditd_local_events is defined
+      - auditd_local_events is string
       - auditd_local_events in [ "yes", "no" ]
     quiet: yes
 
@@ -44,6 +45,7 @@
   assert:
     that:
       - auditd_write_logs is defined
+      - auditd_write_logs is string
       - auditd_write_logs in [ "yes", "no" ]
     quiet: yes
 
@@ -51,18 +53,21 @@
   assert:
     that:
       - auditd_log_file is defined
+      - auditd_log_file is string
     quiet: yes
 
 - name: test if auditd_log_group is set correctly
   assert:
     that:
       - auditd_log_group is defined
+      - auditd_log_group is string
     quiet: yes
 
 - name: test if auditd_log_format is set correctly
   assert:
     that:
       - auditd_log_format is defined
+      - auditd_log_format is string
       - auditd_log_format in [ "ENRICH", "NOLOG", "RAW" ]
     quiet: yes
 
@@ -70,6 +75,7 @@
   assert:
     that:
       - auditd_flush is defined
+      - auditd_flush is string
       - auditd_flush in [ "none", "incremental", "incremental_async", "data", "sync" ]
     quiet: yes
 
@@ -110,6 +116,7 @@
   assert:
     that:
       - auditd_name_format is defined
+      - auditd_name_format is string
       - auditd_name_format in [ "none", "hostname", "fqd", "numeric", "user" ]
     quiet: yes
 
@@ -117,6 +124,7 @@
   assert:
     that:
       - auditd_max_log_file_action is defined
+      - auditd_max_log_file_action is string
       - auditd_max_log_file_action in [ "ignore", "syslog", "suspend", "rotate" ]
     quiet: yes
 
@@ -133,6 +141,7 @@
   assert:
     that:
       - auditd_space_left_action is defined
+      - auditd_space_left_action is string
       - auditd_space_left_action in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
@@ -140,6 +149,7 @@
   assert:
     that:
       - auditd_verify_email is defined
+      - auditd_verify_email is string
       - auditd_verify_email in [ "yes", "no" ]
     quiet: yes
 
@@ -147,6 +157,7 @@
   assert:
     that:
       - auditd_action_mail_acct is defined
+      - auditd_action_mail_acct is string
     quiet: yes
 
 - name: test if auditd_admin_space_left is set correctly
@@ -162,6 +173,7 @@
   assert:
     that:
       - auditd_admin_space_left_action is defined
+      - auditd_admin_space_left_action is string
       - auditd_admin_space_left_action in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
@@ -169,6 +181,7 @@
   assert:
     that:
       - auditd_disk_full_action is defined
+      - auditd_disk_full_action is string
       - auditd_disk_full_action in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
@@ -176,6 +189,7 @@
   assert:
     that:
       - auditd_disk_error_action is defined
+      - auditd_disk_error_action is string
       - auditd_disk_error_action in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
@@ -183,6 +197,7 @@
   assert:
     that:
       - auditd_use_libwrap is defined
+      - auditd_use_libwrap is string
       - auditd_use_libwrap in [ "yes", "no" ]
     quiet: yes
 
@@ -215,6 +230,7 @@
   assert:
     that:
       - auditd_enable_krb5 is defined
+      - auditd_enable_krb5 is string
       - auditd_enable_krb5 in [ "yes", "no" ]
     quiet: yes
 
@@ -222,12 +238,14 @@
   assert:
     that:
       - auditd_krb5_principal is defined
+      - auditd_krb5_principal is string
     quiet: yes
 
 - name: test if auditd_distribute_network is set correctly
   assert:
     that:
       - auditd_distribute_network is defined
+      - auditd_distribute_network is string
       - auditd_distribute_network in [ "yes", "no" ]
     quiet: yes
 
@@ -250,6 +268,7 @@
   assert:
     that:
       - item.keyname is defined
+      - item.keyname is string
     quiet: yes
   loop: "{{ auditd_rules }}"
   loop_control:
@@ -268,14 +287,18 @@
     label: "{{ item.file | default('none') }}"
   when:
     - auditd_rules is defined
+    - auditd_rules is string
     - item.permission is defined
+    - item.permission is string
 
 - name: test if item in auditd_rules is set correctly
   assert:
     that:
       - item.action is defined
+      - item.action is string
       - item.action in [ "always", "never" ]
       - item.filter is defined
+      - item.filter is string
       - item.filter in [ "exclude", "exit", "user" ]
     quiet: yes
   loop: "{{ auditd_rules }}"
@@ -283,7 +306,9 @@
     label: "{{ item.syscall | default('none') }}"
   when:
     - auditd_rules is defined
+    - auditd_rules is string
     - item.syscall is defined
+    - item.syscall is string
 
 - name: test if item.filters in auditd_rules is set correctly
   assert:
@@ -295,4 +320,6 @@
     label: "{{ item.file | default('none') }}"
   when:
     - auditd_rules is defined
+    - auditd_rules is string
     - item.filters is defined
+    - item.filters is string
