@@ -2,9 +2,9 @@
 
 Install and configure auditd on your system.
 
-|Travis|GitHub|Quality|Downloads|Version|
-|------|------|-------|---------|-------|
-|[![travis](https://travis-ci.com/robertdebock/ansible-role-auditd.svg?branch=master)](https://travis-ci.com/robertdebock/ansible-role-auditd)|[![github](https://github.com/robertdebock/ansible-role-auditd/workflows/Ansible%20Molecule/badge.svg)](https://github.com/robertdebock/ansible-role-auditd/actions)|[![quality](https://img.shields.io/ansible/quality/41359)](https://galaxy.ansible.com/robertdebock/auditd)|[![downloads](https://img.shields.io/ansible/role/d/41359)](https://galaxy.ansible.com/robertdebock/auditd)|[![Version](https://img.shields.io/github/release/robertdebock/ansible-role-auditd.svg)](https://github.com/robertdebock/ansible-role-auditd/releases/)|
+|Travis|GitHub|GitLab|Quality|Downloads|Version|
+|------|------|------|-------|---------|-------|
+|[![travis](https://travis-ci.com/robertdebock/ansible-role-auditd.svg?branch=master)](https://travis-ci.com/robertdebock/ansible-role-auditd)|[![github](https://github.com/robertdebock/ansible-role-auditd/workflows/Ansible%20Molecule/badge.svg)](https://github.com/robertdebock/ansible-role-auditd/actions)|[![gitlab](https://gitlab.com/robertdebock/ansible-role-auditd/badges/master/pipeline.svg)](https://gitlab.com/robertdebock/ansible-role-auditd)|[![quality](https://img.shields.io/ansible/quality/41359)](https://galaxy.ansible.com/robertdebock/auditd)|[![downloads](https://img.shields.io/ansible/role/d/41359)](https://galaxy.ansible.com/robertdebock/auditd)|[![Version](https://img.shields.io/github/release/robertdebock/ansible-role-auditd.svg)](https://github.com/robertdebock/ansible-role-auditd/releases/)|
 
 ## [Example Playbook](#example-playbook)
 
