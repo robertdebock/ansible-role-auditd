@@ -1,7 +1,7 @@
 ---
 
 - name: test if auditd_buffer_size is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_buffer_size is defined
       - auditd_buffer_size is number
@@ -10,7 +10,7 @@
     quiet: yes
 
 - name: test if auditd_fail_mode is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_fail_mode is defined
       - auditd_fail_mode is number
@@ -18,7 +18,7 @@
     quiet: yes
 
 - name: test if auditd_maximum_rate is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_maximum_rate is defined
       - auditd_maximum_rate is number
@@ -26,7 +26,7 @@
     quiet: yes
 
 - name: test if auditd_enable_flag is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_enable_flag is defined
       - auditd_enable_flag is number
@@ -34,7 +34,7 @@
     quiet: yes
 
 - name: test if auditd_local_events is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_local_events is defined
       - auditd_local_events is string
@@ -42,7 +42,7 @@
     quiet: yes
 
 - name: test if auditd_write_logs is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_write_logs is defined
       - auditd_write_logs is string
@@ -50,21 +50,21 @@
     quiet: yes
 
 - name: test if auditd_log_file is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_log_file is defined
       - auditd_log_file is string
     quiet: yes
 
 - name: test if auditd_log_group is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_log_group is defined
       - auditd_log_group is string
     quiet: yes
 
 - name: test if auditd_log_format is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_log_format is defined
       - auditd_log_format is string
@@ -72,7 +72,7 @@
     quiet: yes
 
 - name: test if auditd_flush is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_flush is defined
       - auditd_flush is string
@@ -80,7 +80,7 @@
     quiet: yes
 
 - name: test if auditd_freq is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_freq is defined
       - auditd_freq is number
@@ -88,7 +88,7 @@
     quiet: yes
 
 - name: test if auditd_max_log_file is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_max_log_file is defined
       - auditd_max_log_file is number
@@ -96,7 +96,7 @@
     quiet: yes
 
 - name: test if auditd_num_logs is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_num_logs is defined
       - auditd_num_logs is number
@@ -105,7 +105,7 @@
     quiet: yes
 
 - name: test if auditd_priority_boost is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_priority_boost is defined
       - auditd_priority_boost is number
@@ -113,7 +113,7 @@
     quiet: yes
 
 - name: test if auditd_name_format is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_name_format is defined
       - auditd_name_format is string
@@ -121,7 +121,7 @@
     quiet: yes
 
 - name: test if auditd_max_log_file_action is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_max_log_file_action is defined
       - auditd_max_log_file_action is string
@@ -129,7 +129,7 @@
     quiet: yes
 
 - name: test if auditd_space_left is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_space_left is defined
       - auditd_space_left is number
@@ -138,7 +138,7 @@
     quiet: yes
 
 - name: test if auditd_space_left_action is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_space_left_action is defined
       - auditd_space_left_action is string
@@ -146,7 +146,7 @@
     quiet: yes
 
 - name: test if auditd_verify_email is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_verify_email is defined
       - auditd_verify_email is string
@@ -154,14 +154,14 @@
     quiet: yes
 
 - name: test if auditd_action_mail_acct is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_action_mail_acct is defined
       - auditd_action_mail_acct is string
     quiet: yes
 
 - name: test if auditd_admin_space_left is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_admin_space_left is defined
       - auditd_admin_space_left is number
@@ -170,7 +170,7 @@
     quiet: yes
 
 - name: test if auditd_admin_space_left_action is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_admin_space_left_action is defined
       - auditd_admin_space_left_action is string
@@ -178,7 +178,7 @@
     quiet: yes
 
 - name: test if auditd_disk_full_action is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_disk_full_action is defined
       - auditd_disk_full_action is string
@@ -186,7 +186,7 @@
     quiet: yes
 
 - name: test if auditd_disk_error_action is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_disk_error_action is defined
       - auditd_disk_error_action is string
@@ -194,7 +194,7 @@
     quiet: yes
 
 - name: test if auditd_use_libwrap is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_use_libwrap is defined
       - auditd_use_libwrap is string
@@ -202,7 +202,7 @@
     quiet: yes
 
 - name: test if auditd_tcp_listen_queue is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_tcp_listen_queue is defined
       - auditd_tcp_listen_queue is number
@@ -210,7 +210,7 @@
     quiet: yes
 
 - name: test if auditd_tcp_max_per_addr is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_tcp_max_per_addr is defined
       - auditd_tcp_max_per_addr is number
@@ -219,7 +219,7 @@
     quiet: yes
 
 - name: test if auditd_tcp_client_max_idle is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_tcp_client_max_idle is defined
       - auditd_tcp_client_max_idle is number
@@ -227,7 +227,7 @@
     quiet: yes
 
 - name: test if auditd_enable_krb5 is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_enable_krb5 is defined
       - auditd_enable_krb5 is string
@@ -235,14 +235,14 @@
     quiet: yes
 
 - name: test if auditd_krb5_principal is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_krb5_principal is defined
       - auditd_krb5_principal is string
     quiet: yes
 
 - name: test if auditd_distribute_network is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_distribute_network is defined
       - auditd_distribute_network is string
@@ -250,14 +250,14 @@
     quiet: yes
 
 - name: test if auditd_manage_rules is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_manage_rules is defined
       - auditd_manage_rules is boolean
     quiet: yes
 
 - name: test if auditd_rules is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - auditd_rules is iterable
     quiet: yes
@@ -265,7 +265,7 @@
     - auditd_rules is defined
 
 - name: test if item in auditd_rules is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - item.keyname is defined
       - item.keyname is string
@@ -278,7 +278,7 @@
     - item.file is defined
 
 - name: test if item.permission in auditd_rules is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - item.permission in [ "attribute_change", "execute", "read", "write" ]
     quiet: yes
@@ -292,7 +292,7 @@
     - item.permission is string
 
 - name: test if item in auditd_rules is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - item.action is defined
       - item.action is string
@@ -311,7 +311,7 @@
     - item.syscall is string
 
 - name: test if item.filters in auditd_rules is set correctly
-  assert:
+  ansible.builtin.assert:
     that:
       - item.filters is iterable
     quiet: yes
