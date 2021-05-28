@@ -339,4 +339,3 @@
       - auditd_dispatcher is defined
       - auditd_dispatcher is string
     quiet: yes
-
