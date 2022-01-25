@@ -1,10 +1,11 @@
 ---
 # handlers file for auditd
 
-- name: run augenrules
-  ansible.builtin.command:
-    cmd: augenrules
-  notify: load rules
+#- name: run augenrules
+# ansible.builtin.command:
+#   cmd: augenrules
+#   
+# notify: load rules
 
 - name: load rules
   ansible.builtin.command:
