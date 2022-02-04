@@ -30,6 +30,7 @@ default_auditd_disk_full_action: suspend
 default_auditd_disk_error_action: suspend
 default_auditd_use_libwrap: "yes"
 default_auditd_tcp_listen_queue: 5
+default_auditd_tcp_listen_port: null
 default_auditd_tcp_max_per_addr: 1
 default_auditd_tcp_client_max_idle: 0
 default_auditd_enable_krb5: "no"

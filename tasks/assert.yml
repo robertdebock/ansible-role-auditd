@@ -319,6 +319,20 @@
           and (auditd_use_libwrap|lower in [ "yes", "no" ])
         )
 
+- name: Test if auditd_tcp_listen_port is optional integer >=1 <= 65535
+  when:
+    - auditd_tcp_listen_port is defined
+    - auditd_tcp_listen_port not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_tcp_listen_port is integer)
+        or (
+          (auditd_tcp_listen_port is string)
+          and (auditd_tcp_listen_port is regex('^\d+$'))
+        )
+      - (auditd_tcp_listen_port | int) >= 1
+      - (auditd_tcp_listen_port | int) <= 65535
+
 - name: Test if auditd_tcp_listen_queue is optional integer >= 0
   when:
     - auditd_tcp_listen_queue is defined
