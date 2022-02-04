@@ -377,6 +377,38 @@
       - (auditd_tcp_max_per_addr | int) >= 0
       - (auditd_tcp_max_per_addr | int) <= 1024
 
+- name: Test if auditd_tcp_client_ports is optional integer >= 1 <= 65535 or respective range
+  when:
+    - auditd_tcp_client_ports is defined
+    - auditd_tcp_client_ports not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (
+          (
+            (auditd_tcp_client_ports is integer)
+            or (
+              (auditd_tcp_client_ports is string)
+              and (auditd_tcp_client_ports is regex('^\d+$'))
+            )
+          )
+          and (auditd_tcp_client_ports | int) >= 1
+          and (auditd_tcp_client_ports | int) <= 65535
+        )
+        or (
+          auditd_tcp_client_ports is string
+          and auditd_tcp_client_ports is regex('^\d+-\d+$')
+          and (_auditd_assert_tcp_client_ports_lo | int) >= 1
+          and (_auditd_assert_tcp_client_ports_lo | int) <= 65535
+          and (_auditd_assert_tcp_client_ports_hi | int) >= 1
+          and (_auditd_assert_tcp_client_ports_hi | int) <= 65535
+          and (_auditd_assert_tcp_client_ports_lo | int) <= (_auditd_assert_tcp_client_ports_hi | int)
+        )
+  vars:
+    _auditd_assert_tcp_client_ports_lo: >-
+      {{ auditd_tcp_client_ports | regex_replace('-\d+$', '') | default('') }}
+    _auditd_assert_tcp_client_ports_hi: >-
+      {{ auditd_tcp_client_ports | regex_replace('^\d+-', '') | default('') }}
+
 - name: Test if auditd_tcp_client_max_idle is optional integer >=0
   when:
     - auditd_tcp_client_max_idle is defined

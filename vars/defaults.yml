@@ -34,6 +34,7 @@ default_auditd_tcp_listen_queue: 5
 default_auditd_tcp_listen_port: null
 default_auditd_tcp_max_per_addr: 1
 default_auditd_tcp_client_max_idle: 0
+default_auditd_tcp_client_ports: null
 default_auditd_enable_krb5: "no"
 default_auditd_krb5_principal: auditd
 default_auditd_distribute_network: "no"
