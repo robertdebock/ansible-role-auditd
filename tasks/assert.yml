@@ -442,6 +442,14 @@
     that:
       - auditd_krb5_principal is string
 
+- name: Test if auditd_krb5_key_file is optional string
+  when:
+    - auditd_krb5_key_file is defined
+    - auditd_krb5_key_file not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_krb5_key_file is string
+
 - name: Test if auditd_distribute_network is optional boolean
   when:
     - auditd_distribute_network is defined
