@@ -38,7 +38,7 @@
     that:
       - auditd_local_events is defined
       - auditd_local_events is string
-      - auditd_local_events in [ "yes", "no" ]
+      - auditd_local_events|lower in [ "yes", "no" ]
     quiet: yes
 
 - name: Test if auditd_write_logs is set correctly
@@ -46,7 +46,7 @@
     that:
       - auditd_write_logs is defined
       - auditd_write_logs is string
-      - auditd_write_logs in [ "yes", "no" ]
+      - auditd_write_logs|lower in [ "yes", "no" ]
     quiet: yes
 
 - name: Test if auditd_log_file is set correctly
@@ -68,7 +68,7 @@
     that:
       - auditd_log_format is defined
       - auditd_log_format is string
-      - auditd_log_format in [ "ENRICHED", "NOLOG", "RAW" ]
+      - auditd_log_format|lower in [ "enriched", "nolog", "raw" ]
     quiet: yes
 
 - name: Test if auditd_flush is set correctly
@@ -76,7 +76,7 @@
     that:
       - auditd_flush is defined
       - auditd_flush is string
-      - auditd_flush in [ "none", "incremental", "incremental_async", "data", "sync" ]
+      - auditd_flush|lower in [ "none", "incremental", "incremental_async", "data", "sync" ]
     quiet: yes
 
 - name: Test if auditd_freq is set correctly
@@ -117,7 +117,7 @@
     that:
       - auditd_name_format is defined
       - auditd_name_format is string
-      - auditd_name_format in [ "none", "hostname", "fqd", "numeric", "user" ]
+      - auditd_name_format|lower in [ "none", "hostname", "fqd", "numeric", "user" ]
     quiet: yes
 
 - name: Test if auditd_max_log_file_action is set correctly
@@ -125,7 +125,7 @@
     that:
       - auditd_max_log_file_action is defined
       - auditd_max_log_file_action is string
-      - auditd_max_log_file_action in [ "ignore", "syslog", "suspend", "rotate" ]
+      - auditd_max_log_file_action|lower in [ "ignore", "syslog", "suspend", "rotate" ]
     quiet: yes
 
 - name: Test if auditd_space_left is set correctly
@@ -142,7 +142,7 @@
     that:
       - auditd_space_left_action is defined
       - auditd_space_left_action is string
-      - auditd_space_left_action in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
+      - auditd_space_left_action|lower in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
 - name: Test if auditd_verify_email is set correctly
@@ -150,7 +150,7 @@
     that:
       - auditd_verify_email is defined
       - auditd_verify_email is string
-      - auditd_verify_email in [ "yes", "no" ]
+      - auditd_verify_email|lower in [ "yes", "no" ]
     quiet: yes
 
 - name: Test if auditd_action_mail_acct is set correctly
@@ -174,7 +174,7 @@
     that:
       - auditd_admin_space_left_action is defined
       - auditd_admin_space_left_action is string
-      - auditd_admin_space_left_action in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
+      - auditd_admin_space_left_action|lower in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
 - name: Test if auditd_disk_full_action is set correctly
@@ -182,7 +182,7 @@
     that:
       - auditd_disk_full_action is defined
       - auditd_disk_full_action is string
-      - auditd_disk_full_action in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
+      - auditd_disk_full_action|lower in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
 - name: Test if auditd_disk_error_action is set correctly
@@ -190,7 +190,7 @@
     that:
       - auditd_disk_error_action is defined
       - auditd_disk_error_action is string
-      - auditd_disk_error_action in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
+      - auditd_disk_error_action|lower in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
     quiet: yes
 
 - name: Test if auditd_use_libwrap is set correctly
@@ -198,7 +198,7 @@
     that:
       - auditd_use_libwrap is defined
       - auditd_use_libwrap is string
-      - auditd_use_libwrap in [ "yes", "no" ]
+      - auditd_use_libwrap|lower in [ "yes", "no" ]
     quiet: yes
 
 - name: Test if auditd_tcp_listen_queue is set correctly
@@ -231,7 +231,7 @@
     that:
       - auditd_enable_krb5 is defined
       - auditd_enable_krb5 is string
-      - auditd_enable_krb5 in [ "yes", "no" ]
+      - auditd_enable_krb5|lower in [ "yes", "no" ]
     quiet: yes
 
 - name: Test if auditd_krb5_principal is set correctly
@@ -246,7 +246,7 @@
     that:
       - auditd_distribute_network is defined
       - auditd_distribute_network is string
-      - auditd_distribute_network in [ "yes", "no" ]
+      - auditd_distribute_network|lower in [ "yes", "no" ]
     quiet: yes
 
 - name: Test if auditd_manage_rules is set correctly
@@ -280,7 +280,7 @@
 - name: Test if item.permission in auditd_rules is set correctly
   ansible.builtin.assert:
     that:
-      - item.permission in [ "attribute_change", "execute", "read", "write" ]
+      - item.permission|lower in [ "attribute_change", "execute", "read", "write" ]
     quiet: yes
   loop: "{{ auditd_rules }}"
   loop_control:
@@ -296,10 +296,10 @@
     that:
       - item.action is defined
       - item.action is string
-      - item.action in [ "always", "never" ]
+      - item.action|lower in [ "always", "never" ]
       - item.filter is defined
       - item.filter is string
-      - item.filter in [ "exclude", "exit", "user" ]
+      - item.filter|lower in [ "exclude", "exit", "user" ]
     quiet: yes
   loop: "{{ auditd_rules }}"
   loop_control:
@@ -329,7 +329,7 @@
     that:
       - auditd_disp_qos is defined
       - auditd_disp_qos is string
-      - auditd_disp_qos in [ "lossy", "lossless" ]
+      - auditd_disp_qos|lower in [ "lossy", "lossless" ]
     fail_msg: "auditd_disp_qos must be one of 'lossy', 'lossless'."
     quiet: yes
 
