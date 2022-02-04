@@ -18,6 +18,7 @@ default_auditd_num_logs: 5
 default_auditd_priority_boost: 4
 default_auditd_disp_qos: lossy
 default_auditd_dispatcher: /sbin/audispd
+default_auditd_name: null
 default_auditd_name_format: null
 default_auditd_max_log_file_action: rotate
 default_auditd_space_left: 75

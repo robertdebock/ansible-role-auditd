@@ -201,6 +201,23 @@
       - auditd_name_format|lower in [ "none", "hostname", "fqd", "numeric", "user" ]
     fail_msg: "auditd_name_format must be one of 'none', 'hostname', 'fqd', 'numeric', 'user', was '{{ auditd_name_format }}'."
 
+- name: Test if auditd_name is mandatory string
+  # Is mandatory in this case, there is no default
+  when:
+    - auditd_name_format|lower == "user"
+  ansible.builtin.assert:
+    that:
+      - auditd_name is defined
+      - auditd_name is string
+
+- name: Test if auditd_name is optional string
+  when:
+    - auditd_name is defined
+    - auditd_name not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_name is string
+
 - name: Test if auditd_max_log_file_action is optional selection
   when:
     - auditd_max_log_file_action is defined
