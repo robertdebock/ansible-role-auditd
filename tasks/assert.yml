@@ -224,68 +224,65 @@
       - auditd_manage_rules is defined
       - auditd_manage_rules is boolean
 
-- name: Test if auditd_rules is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_rules is iterable
+- name: Block auditd_rules is defined
   when:
     - auditd_rules is defined
 
-- name: Test if item.file in auditd_rules is set correctly
-  ansible.builtin.assert:
-    that:
-      - item.keyname is defined
-      - item.keyname is string
-  loop: "{{ auditd_rules }}"
-  loop_control:
-    label: "{{ item.file | default('none') }}"
-  when:
-    - auditd_rules is defined
-    - item.file is defined
+  block:
+    - name: Test if auditd_rules is set correctly
+      ansible.builtin.assert:
+        that:
+          - auditd_rules is iterable
 
-- name: Test if item.permission in auditd_rules is set correctly
-  ansible.builtin.assert:
-    that:
-      - item.permission|lower in [ "attribute_change", "execute", "read", "write" ]
-  loop: "{{ auditd_rules }}"
-  loop_control:
-    label: "{{ item.file | default('none') }}"
-  when:
-    - auditd_rules is defined
-    - auditd_rules is string
-    - item.permission is defined
-    - item.permission is string
+    - name: Test if item.file in auditd_rules is set correctly
+      ansible.builtin.assert:
+        that:
+          - item.file is string
+          - item.keyname is defined
+          - item.keyname is string
+      loop: "{{ auditd_rules }}"
+      loop_control:
+        label: "{{ item.file | default('none') }}"
+      when:
+        - item.file is defined
 
-- name: Test if item in auditd_rules is set correctly
-  ansible.builtin.assert:
-    that:
-      - item.action is defined
-      - item.action is string
-      - item.action|lower in [ "always", "never" ]
-      - item.filter is defined
-      - item.filter is string
-      - item.filter|lower in [ "exclude", "exit", "user" ]
-  loop: "{{ auditd_rules }}"
-  loop_control:
-    label: "{{ item.syscall | default('none') }}"
-  when:
-    - auditd_rules is defined
-    - auditd_rules is string
-    - item.syscall is defined
-    - item.syscall is string
+    - name: Test if item.permission in auditd_rules is set correctly
+      ansible.builtin.assert:
+        that:
+          - item.permission|lower in [ "attribute_change", "execute", "read", "write" ]
+      loop: "{{ auditd_rules }}"
+      loop_control:
+        label: "{{ item.file | default('none') }}"
+      when:
+        - item.permission is defined
+        - item.permission is string
 
-- name: Test if item.filters in auditd_rules is set correctly
-  ansible.builtin.assert:
-    that:
-      - item.filters is iterable
-      - item.filters is not string
-  loop: "{{ auditd_rules }}"
-  loop_control:
-    label: "{{ item.file | default('none') }}"
-  when:
-    - auditd_rules is defined
-    - auditd_rules is string
-    - item.filters is defined
+    - name: Test if item in auditd_rules is set correctly
+      ansible.builtin.assert:
+        that:
+          - item.action is defined
+          - item.action is string
+          - item.action|lower in [ "always", "never" ]
+          - item.filter is defined
+          - item.filter is string
+          - item.filter|lower in [ "exclude", "exit", "user" ]
+      loop: "{{ auditd_rules }}"
+      loop_control:
+        label: "{{ item.syscall | default('none') }}"
+      when:
+        - item.syscall is defined
+        - item.syscall is string
+
+    - name: Test if item.filters in auditd_rules is set correctly
+      ansible.builtin.assert:
+        that:
+          - item.filters is iterable
+          - item.filters is not string
+      loop: "{{ auditd_rules }}"
+      loop_control:
+        label: "{{ item.file | default('none') }}"
+      when:
+        - item.filters is defined
 
 - name: Test if auditd_disp_qos is set correctly
   ansible.builtin.assert:
