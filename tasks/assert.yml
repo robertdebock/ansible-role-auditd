@@ -472,6 +472,20 @@
           and (auditd_distribute_network|lower in [ "yes", "no" ])
         )
 
+- name: Test if auditd_q_depth is optional integer >= 0 <= 99999
+  when:
+    - auditd_q_depth is defined
+    - auditd_q_depth not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_q_depth is integer)
+        or (
+          (auditd_q_depth is string)
+          and (auditd_q_depth is regex('^\d+$'))
+        )
+      - (auditd_q_depth | int) >= 0
+      - (auditd_q_depth | int) <= 99999
+
 - name: Test if auditd_disp_qos is optional selection
   when:
     - auditd_disp_qos is defined

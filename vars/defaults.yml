@@ -40,3 +40,4 @@ default_auditd_krb5_principal: auditd
 default_auditd_krb5_key_file: null
 default_auditd_distribute_network: "no"
 default_auditd_transport: null
+default_auditd_q_depth: null
