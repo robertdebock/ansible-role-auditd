@@ -1,5 +1,11 @@
 ---
 
+- name: Test if auditd_rules_file is set correctly
+  ansible.builtin.assert:
+    that:
+      - auditd_rules_file is defined
+      - auditd_rules_file is string
+
 - name: Test if auditd_buffer_size is set correctly
   ansible.builtin.assert:
     that:

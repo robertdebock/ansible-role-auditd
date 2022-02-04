@@ -37,5 +37,6 @@ auditd_krb5_principal: auditd
 auditd_distribute_network: "no"
 
 auditd_manage_rules: yes
+auditd_rules_file: custom.rules
 
 auditd_default_arch: b64

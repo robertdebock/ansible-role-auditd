@@ -36,7 +36,7 @@
 - name: Place custom.rules
   ansible.builtin.template:
     src: custom.rules.j2
-    dest: "{{ auditd_config_directory }}/rules.d/custom.rules"
+    dest: "{{ auditd_config_directory }}/rules.d/{{ auditd_rules_file }}"
     mode: "0640"
   notify:
     - Run augenrules
