@@ -26,6 +26,7 @@
 {%   endif %}
 {% endmacro %}
 
+{# Checked from https://github.com/linux-audit/audit-userspace/blob/master/src/auditd-config.c as of audit-3.0.7 #}
 {{ render_option('auditd_local_events') -}}
 {{ render_option('auditd_write_logs') -}}
 {{ render_option('auditd_log_file') -}}
