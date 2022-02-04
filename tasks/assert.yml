@@ -535,6 +535,19 @@
     that:
       - auditd_dispatcher is string
 
+- name: Test if auditd_end_of_event_timeout is optional integer >=0
+  when:
+    - auditd_end_of_event_timeout is defined
+    - auditd_end_of_event_timeout not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_end_of_event_timeout is integer)
+        or (
+          (auditd_end_of_event_timeout is string)
+          and (auditd_end_of_event_timeout is regex('^\d+$'))
+        )
+      - (auditd_end_of_event_timeout | int) >= 0
+
 #
 # audit rules
 #
