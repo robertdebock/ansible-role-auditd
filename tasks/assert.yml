@@ -496,6 +496,19 @@
       - auditd_overflow_action|lower in [ "ignore", "syslog", "suspend", "single", "halt" ]
     fail_msg: "auditd_overflow_action must be one of 'ignore', 'syslog', 'suspend', 'single', 'halt', was '{{ auditd_overflow_action }}'."
 
+- name: Test if auditd_max_restarts is optional integer >=0
+  when:
+    - auditd_max_restarts is defined
+    - auditd_max_restarts not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_max_restarts is integer)
+        or (
+          (auditd_max_restarts is string)
+          and (auditd_max_restarts is regex('^\d+$'))
+        )
+      - (auditd_max_restarts | int) >= 0
+
 - name: Test if auditd_disp_qos is optional selection
   when:
     - auditd_disp_qos is defined
