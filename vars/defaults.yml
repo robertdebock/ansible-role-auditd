@@ -43,3 +43,4 @@ default_auditd_transport: null
 default_auditd_q_depth: null
 default_auditd_overflow_action: null
 default_auditd_max_restarts: null
+default_auditd_plugin_dir: null

@@ -509,6 +509,14 @@
         )
       - (auditd_max_restarts | int) >= 0
 
+- name: Test if auditd_plugin_dir is optional string
+  when:
+    - auditd_plugin_dir is defined
+    - auditd_plugin_dir not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_plugin_dir is string
+
 - name: Test if auditd_disp_qos is optional selection
   when:
     - auditd_disp_qos is defined
