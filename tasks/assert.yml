@@ -422,6 +422,16 @@
         )
       - (auditd_tcp_client_max_idle | int) >= 0
 
+- name: Test if auditd_transport is optional selection
+  when:
+    - auditd_transport is defined
+    - auditd_transport not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_transport is string
+      - auditd_transport|lower in [ "tcp", "krb5" ]
+    fail_msg: "auditd_transport must be one of 'tcp', 'krb5', was '{{ auditd_transport }}'."
+
 - name: Test if auditd_enable_krb5 is optional boolean
   when:
     - auditd_enable_krb5 is defined
