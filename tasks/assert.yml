@@ -1,10 +1,17 @@
 ---
+#
+# Module configuration values
+#
 
 - name: Test if auditd_rules_file is set correctly
   ansible.builtin.assert:
     that:
       - auditd_rules_file is defined
       - auditd_rules_file is string
+
+#
+# audit.rules flag values
+#
 
 - name: Test if auditd_buffer_size is set correctly
   ansible.builtin.assert:
@@ -34,6 +41,10 @@
       - auditd_enable_flag is defined
       - auditd_enable_flag is number
       - auditd_enable_flag in [ 0, 1, 2 ]
+
+#
+# auditd.conf settings
+#
 
 - name: Test if auditd_local_events is set correctly
   ansible.builtin.assert:
@@ -229,6 +240,10 @@
     that:
       - auditd_manage_rules is defined
       - auditd_manage_rules is boolean
+
+#
+# audit rules
+#
 
 - name: Block auditd_rules is defined
   when:
