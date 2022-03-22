@@ -11,12 +11,7 @@
 
 - name: Install requirements
   ansible.builtin.package:
-    name: bash
-    state: present
-
-- name: Install audit
-  ansible.builtin.package:
-    name: "{{ auditd_packages }}"
+    name: "{{ ['bash'] + auditd_packages | list }}"
     state: present
 
 - name: Configure auditd
