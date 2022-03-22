@@ -1,12 +1,20 @@
 {{ ansible_managed | comment }}
-{% macro render_value(key, value) %}
+{% macro render_value(key, value, upper) %}
+{%   if value is sameas true %}
+{{ key }} = yes
+{%   elif value is sameas false %}
+{{ key }} = no
+{%   elif (value is string) and upper and auditd_use_upper_values %}
+{{ key }} = {{ value | upper }}
+{%   else %}
 {{ key }} = {{ value | string() }}
+{%   endif %}
 {% endmacro %}
-{% macro render_option(auditd_key) %}
+{% macro render_option(auditd_key, upper=false) %}
 {%   set key = auditd_key[7:] %}
 {# value can have legit value '0', so 'and value' is not possible #}
 {%   if auditd_key in vars and vars[auditd_key] not in [none, ''] %}
-{{ render_value(key, vars[auditd_key]) -}}
+{{ render_value(key, vars[auditd_key], upper) -}}
 {%   endif %}
 {% endmacro %}
 
@@ -14,38 +22,38 @@
 {{ render_option('auditd_write_logs') -}}
 {{ render_option('auditd_log_file') -}}
 {{ render_option('auditd_log_group') -}}
-{{ render_option('auditd_log_format') -}}
-{{ render_option('auditd_flush') -}}
+{{ render_option('auditd_log_format',			true) -}}
+{{ render_option('auditd_flush',			true) -}}
 {{ render_option('auditd_freq') -}}
 {{ render_option('auditd_max_log_file') -}}
 {{ render_option('auditd_num_logs') -}}
 {{ render_option('auditd_priority_boost') -}}
 {{ render_option('auditd_disp_qos') -}}
 {{ render_option('auditd_dispatcher') -}}
-{{ render_option('auditd_name_format') -}}
+{{ render_option('auditd_name_format',			true) -}}
 {{ render_option('auditd_name') -}}
-{{ render_option('auditd_max_log_file_action') -}}
+{{ render_option('auditd_max_log_file_action',		true) -}}
 {{ render_option('auditd_space_left') -}}
-{{ render_option('auditd_space_left_action') -}}
+{{ render_option('auditd_space_left_action',		true) -}}
 {{ render_option('auditd_verify_email') -}}
 {{ render_option('auditd_action_mail_acct') -}}
 {{ render_option('auditd_admin_space_left') -}}
-{{ render_option('auditd_admin_space_left_action') -}}
-{{ render_option('auditd_disk_full_action') -}}
-{{ render_option('auditd_disk_error_action') -}}
+{{ render_option('auditd_admin_space_left_action',	true) -}}
+{{ render_option('auditd_disk_full_action',		true) -}}
+{{ render_option('auditd_disk_error_action',		true) -}}
 {{ render_option('auditd_use_libwrap') -}}
 {{ render_option('auditd_tcp_listen_port') -}}
 {{ render_option('auditd_tcp_listen_queue') -}}
 {{ render_option('auditd_tcp_max_per_addr') -}}
 {{ render_option('auditd_tcp_client_ports') -}}
 {{ render_option('auditd_tcp_client_max_idle') -}}
-{{ render_option('auditd_transport') -}}
+{{ render_option('auditd_transport',			true) -}}
 {{ render_option('auditd_enable_krb5') -}}
 {{ render_option('auditd_krb5_principal') -}}
 {{ render_option('auditd_krb5_key_file') -}}
 {{ render_option('auditd_distribute_network') -}}
 {{ render_option('auditd_q_depth') -}}
-{{ render_option('auditd_overflow_action') -}}
+{{ render_option('auditd_overflow_action',		true) -}}
 {{ render_option('auditd_max_restarts') -}}
 {{ render_option('auditd_plugin_dir') -}}
 {{ render_option('auditd_end_of_event_timeout') -}}

@@ -15,6 +15,12 @@
       - auditd_manage_rules is defined
       - auditd_manage_rules is boolean
 
+- name: Test if auditd_use_upper_values is mandatory boolean
+  ansible.builtin.assert:
+    that:
+      - auditd_use_upper_values is defined
+      - auditd_use_upper_values is boolean
+
 #
 # audit.rules flag values
 #

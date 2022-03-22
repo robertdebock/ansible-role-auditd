@@ -1,5 +1,6 @@
 ---
 auditd_manage_rules: true
 auditd_rules_file: custom.rules
+auditd_use_upper_values: false
 
 auditd_default_arch: b64
