@@ -15,6 +15,11 @@
 {# value can have legit value '0', so 'and value' is not possible #}
 {%   if auditd_key in vars and vars[auditd_key] not in [none, ''] %}
 {{ render_value(key, vars[auditd_key], upper) -}}
+{%   elif auditd_key in auditd_config_commented_out_settings %}
+{%     set default_key = 'default_' + auditd_key %}
+{%     if default_key in vars and vars[default_key] not in [none, ''] %}
+##{{ render_value(key, vars[default_key], upper) -}}
+{%     endif %}
 {%   endif %}
 {% endmacro %}
 

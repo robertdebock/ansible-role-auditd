@@ -21,6 +21,22 @@
       - auditd_use_upper_values is defined
       - auditd_use_upper_values is boolean
 
+- name: Test if auditd_config_commented_out_settings is mandatory list
+  ansible.builtin.assert:
+    that:
+      - auditd_config_commented_out_settings is iterable
+      - auditd_config_commented_out_settings is not string
+      - auditd_config_commented_out_settings is not mapping
+
+- name: Test if auditd_config_commented_out_settings values are set correctly
+  ansible.builtin.assert:
+    that:
+      - item is defined
+      - item is string
+      - item is match('^auditd_')
+      - ('default_' ~ item) in vars
+  loop: "{{ auditd_config_commented_out_settings }}"
+
 #
 # audit.rules flag values
 #
