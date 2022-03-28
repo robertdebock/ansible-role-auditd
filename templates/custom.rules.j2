@@ -1,4 +1,7 @@
 {{ ansible_managed | comment }}
+{% macro render_comparisons(rule) %}
+{% if rule.comparisons is defined %}{% for comparison in rule.comparisons %} -C {{ comparison }}{% endfor %}{% endif -%}
+{% endmacro %}
 {% macro render_filters(rule) %}
 {% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif -%}
 {% endmacro %}
@@ -23,11 +26,11 @@
 {% if auditd_rules is defined %}
 {% for rule in auditd_rules %}
 {% if rule.file is defined %}
--w {{ rule.file }}{{ render_filters(rule) }}{{ render_permissions(rule) }}{{ render_keyname(rule) }}
+-w {{ rule.file }}{{ render_comparisons(rule) }}{{ render_filters(rule) }}{{ render_permissions(rule) }}{{ render_keyname(rule) }}
 {% elif rule.syscall is defined %}
--a {{ rule.action }},{{ rule.filter }} -F arch={{ rule.arch | default(auditd_default_arch) }} -S {{ rule.syscall }}{{ render_filters(rule) }}{{ render_keyname(rule) }}
+-a {{ rule.action }},{{ rule.filter }} -F arch={{ rule.arch | default(auditd_default_arch) }} -S {{ rule.syscall }}{{ render_comparisons(rule) }}{{ render_filters(rule) }}{{ render_keyname(rule) }}
 {% elif rule.action is defined and rule.file is not defined and rule.syscall is not defined %}
--a {{ rule.action }},{{ rule.filter }}{{ render_filters(rule) }}{{ render_permissions(rule) }}{{ render_keyname(rule) }}
+-a {{ rule.action }},{{ rule.filter }}{{ render_comparisons(rule) }}{{ render_filters(rule) }}{{ render_permissions(rule) }}{{ render_keyname(rule) }}
 {% endif %}
 {% endfor %}
 {% endif %}

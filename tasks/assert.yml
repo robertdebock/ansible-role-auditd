@@ -292,6 +292,16 @@
         - item.syscall is defined
         - item.syscall is string
 
+    - name: Test if item.comparisons in auditd_rules is set correctly
+      ansible.builtin.assert:
+        that:
+          - item.comparisons is iterable
+      loop: "{{ auditd_rules }}"
+      loop_control:
+        label: "{{ item.file | default('none') }}"
+      when:
+        - item.comparisons is defined
+
     - name: Test if item.filters in auditd_rules is set correctly
       ansible.builtin.assert:
         that:
