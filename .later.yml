@@ -1,0 +1,22 @@
+---
+ansible:
+  literal-bools:
+    - 'true'
+    - 'false'
+    - 'yes'
+    - 'no'
+
+rules:
+  version: "0.2"
+  exclude_files:
+    - collections
+    - external_roles
+    - plugins
+    - requirements.txt
+  exclude_filter:
+    # yaml document end not useful if no multiple docs
+    - LINT0009
+    # I see no point requiring capital names
+    - ANSIBLE0007
+    # become needs become_user but if we use defaults there is no point
+    - ANSIBLE0015
