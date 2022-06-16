@@ -612,69 +612,52 @@
       ansible.builtin.assert:
         that:
           - auditd_rules is iterable
-
-    - name: Test if item.file in auditd_rules is set correctly
-      ansible.builtin.assert:
-        that:
-          - item.file is string
-      loop: "{{ auditd_rules }}"
-      loop_control:
-        label: "{{ item.file | default('none') }}"
-      when:
-        - item.file is defined
-
-    - name: Test if item.permission in auditd_rules is set correctly
-      ansible.builtin.assert:
-        that:
-          - item.permission|lower in [ "attribute_change", "execute", "read", "write" ]
-      loop: "{{ auditd_rules }}"
-      loop_control:
-        label: "{{ item.file | default('none') }}"
-      when:
-        - item.permission is defined
-        - item.permission is string
-
-    - name: Test if item in auditd_rules is set correctly
-      ansible.builtin.assert:
-        that:
-          - item.action is defined
-          - item.action is string
-          - item.action|lower in [ "always", "never" ]
-          - item.filter is defined
-          - item.filter is string
-          - item.filter|lower in [ "exclude", "exit", "user" ]
-      loop: "{{ auditd_rules }}"
-      loop_control:
-        label: "{{ item.syscall | default('none') }}"
-      when:
-        - item.syscall is defined
-        - item.syscall is string
-
-    - name: Test if item.comparisons in auditd_rules is set correctly
-      ansible.builtin.assert:
-        that:
-          - item.comparisons is iterable
-      loop: "{{ auditd_rules }}"
-      loop_control:
-        label: "{{ item.file | default('none') }}"
-      when:
-        - item.comparisons is defined
-
-    - name: Test if item.filters in auditd_rules is set correctly
-      ansible.builtin.assert:
-        that:
-          - item.filters is iterable
-          - item.filters is not string
-      loop: "{{ auditd_rules }}"
-      loop_control:
-        label: "{{ item.file | default('none') }}"
-      when:
-        - item.filters is defined
-
-    - name: Test if item.keyname in auditd_rules is set correctly
-      ansible.builtin.assert:
-        that:
-          - item.keyname is string
-      loop: "{{ auditd_rules }}"
-      when:
-        - item.keyname is defined
+          - (_auditd_assert_file_rules | select("string")) == _auditd_assert_file_rules
+          - (_auditd_assert_keyname_rules | select("string")) == _auditd_assert_keyname_rules
+          - (_auditd_assert_permission_rules | select("string") | map("lower") | select("in", _auditd_assert_permission_values)) == _auditd_assert_permission_rules
+          - (_auditd_assert_filters_rules | select("iterable") | reject("string") | map("select", "string")) == _auditd_assert_filters_rules
+          - (_auditd_assert_comparisons_rules | select("iterable")) == _auditd_assert_comparisons_rules
+          - (_auditd_assert_syscall_rules | select("string")) == _auditd_assert_syscall_rules
+          # use full rules to ensure each item has both attributes
+          - _auditd_assert_syscall_full_rules == _auditd_assert_action_full_rules
+          - _auditd_assert_syscall_full_rules == _auditd_assert_filter_full_rules
+          - (_auditd_assert_filter_rules | select("string") | map("lower") | select("in", _auditd_assert_filter_values)) == _auditd_assert_filter_rules
+          - (_auditd_assert_filter_rules | select("string") | map("lower") ) == _auditd_assert_filter_rules
+          - (_auditd_assert_action_rules | select("string") | map("lower") | select("in", _auditd_assert_action_values)) == _auditd_assert_action_rules
+      vars:
+        # per attibute create list of rules where attribute is mapped
+        _auditd_assert_file_rules: >-
+          {{ auditd_rules | selectattr("file", "defined") | map(attribute="file") | list }}
+        _auditd_assert_keyname_rules: >-
+          {{ auditd_rules | selectattr("keyname", "defined") | map(attribute="keyname") | list }}
+        _auditd_assert_permission_rules: >-
+          {{ auditd_rules | selectattr("permission", "defined") | map(attribute="permission") | list }}
+        _auditd_assert_filters_rules: >-
+          {{ auditd_rules | selectattr("filters", "defined") | map(attribute="filters") | list }}
+        _auditd_assert_comparisons_rules: >-
+          {{ auditd_rules | selectattr("comparisons", "defined") | map(attribute="comparisons") | list }}
+        # per attibute with extra values create full list w/o attribute being mapped
+        _auditd_assert_syscall_full_rules: >-
+          {{ auditd_rules | selectattr("syscall", "defined") | list }}
+        _auditd_assert_syscall_rules: >-
+          {{ _auditd_assert_syscall_full_rules | map(attribute="syscall") | list }}
+        _auditd_assert_action_full_rules: >-
+          {{ _auditd_assert_syscall_full_rules | selectattr("action", "defined") | list }}
+        _auditd_assert_action_rules: >-
+          {{ _auditd_assert_action_full_rules | map(attribute="action") | list }}
+        _auditd_assert_filter_full_rules: >-
+          {{ _auditd_assert_syscall_full_rules | selectattr("filter", "defined") | list }}
+        _auditd_assert_filter_rules: >-
+          {{ _auditd_assert_filter_full_rules | map(attribute="filter") | list }}
+        _auditd_assert_action_values:
+          - always
+          - never
+        _auditd_assert_filter_values:
+          - exclude
+          - exit
+          - user
+        _auditd_assert_permission_values:
+          - attribute_change
+          - execute
+          - read
+          - write
