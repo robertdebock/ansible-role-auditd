@@ -1,12 +1,12 @@
 {{ ansible_managed | comment }}
 {% macro render_value(key, value) %}
-{{ key }} = {{ value }}
+{{ key }} = {{ value | string() }}
 {% endmacro %}
 {% macro render_option(auditd_key) %}
 {%   set key = auditd_key[7:] %}
-{%   set value = lookup('vars', auditd_key, default='') %}
-{%   if (value is defined) and (value != None) and value %}
-{{ render_value(key, value) -}}
+{# value can have legit value '0', so 'and value' is not possible #}
+{%   if auditd_key in vars and vars[auditd_key] not in [none, ''] %}
+{{ render_value(key, vars[auditd_key]) -}}
 {%   endif %}
 {% endmacro %}
 

@@ -1,6 +1,54 @@
 ---
 # tasks file for auditd
 
+- name: Include var _auditd_var_files
+  vars:
+    _auditd_var_files:
+      - defaults.yml
+      - "{{ ansible_facts['os_family'] }}.yml"
+      - "{{ ansible_facts['distribution'] }}.yml"
+      - >-
+        {{ ansible_facts['distribution'] ~ '_' ~
+        ansible_facts['distribution_major_version'] }}.yml
+      - >-
+        {{ ansible_facts['distribution'] ~ '_' ~
+        ansible_facts['distribution_version'] }}.yml
+  tags:
+    - always
+  block:
+    - name: Set platform/version specific variables
+      ansible.builtin.include_vars: "{{ __auditd_vars_file }}"
+      loop: "{{ _auditd_var_files | unique }}"
+      vars:
+        __auditd_vars_file: "{{ role_path }}/vars/{{ item }}"
+      when: __auditd_vars_file is file
+      tags:
+        - always
+
+# code from https://www.samdarwin.com/ansible-default-vars/
+# This 'is not defined'
+#   precedence: 19. set_facts / registered vars
+# allows nicely to define per distro defaults in role/vars above
+#   precedence: 18. include_vars
+# But still use task vars in import_role
+#   precedence: 17. task vars (only for the task)
+# Common defaults are set:
+#   precedence: 2. role defaults (defined in role/defaults/main.yml)
+#   precedence: 15. role vars (defined in role/vars/main.yml)
+#
+# from_yaml | to_json: keeps type fixed
+- name: Set facts based on defaults
+  when:
+    - vars[item[8:]] is not defined
+    - item[8:] not in auditd_config_commented_out_settings
+  ansible.builtin.set_fact:
+    # 12345678
+    # default_
+    "{{ item[8:] }}": "{{ vars[item] }}"
+  loop: "{{ vars | select('match', '^default_auditd_') | list }}"
+  tags:
+    - always
+
 - name: Import assert.yml
   ansible.builtin.import_tasks: assert.yml
   run_once: yes
