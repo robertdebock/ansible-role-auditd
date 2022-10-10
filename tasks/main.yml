@@ -8,6 +8,8 @@
   module_defaults:
     ansible.builtin.assert:
       quiet: yes
+  tags:
+    - assert_parameters
 
 - name: Install requirements
   ansible.builtin.package:
