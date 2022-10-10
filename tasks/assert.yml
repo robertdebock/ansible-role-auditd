@@ -278,6 +278,7 @@
   ansible.builtin.assert:
     that:
       - item.filters is iterable
+      - item.filters is not string
   loop: "{{ auditd_rules }}"
   loop_control:
     label: "{{ item.file | default('none') }}"
@@ -285,7 +286,6 @@
     - auditd_rules is defined
     - auditd_rules is string
     - item.filters is defined
-    - item.filters is string
 
 - name: Test if auditd_disp_qos is set correctly
   ansible.builtin.assert:
