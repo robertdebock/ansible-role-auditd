@@ -1,4 +1,13 @@
 {{ ansible_managed | comment }}
+{% macro render_filters(rule) %}
+{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif -%}
+{% endmacro %}
+{% macro render_permissions(rule) %}
+{% if rule.permissions is defined %} -p {% for permission in rule.permissions %}{{ _auditd_permissions[permission] }}{% endfor %}{% endif -%}
+{% endmacro %}
+{% macro render_keyname(rule) %}
+{% if rule.keyname is defined %} -k {{ rule.keyname }}{% endif -%}
+{% endmacro %}
 
 # Delete all previous rules
 -D
@@ -14,13 +23,13 @@
 {% if auditd_rules is defined %}
 {% for rule in auditd_rules %}
 {% if rule.file is defined %}
--w {{ rule.file }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %}{% if rule.permissions is defined %} -p {% for permission in rule.permissions %}{{ _auditd_permissions[permission] }}{% endfor %}{% endif %}{% if rule.keyname is defined %} -k {{ rule.keyname }}{% endif +%}
+-w {{ rule.file }}{{ render_filters(rule) }}{{ render_permissions(rule) }}{{ render_keyname(rule) }}
 {% endif %}
 {% if rule.syscall is defined %}
--a {{ rule.action }},{{ rule.filter }} -F arch={{ rule.arch | default(auditd_default_arch) }} -S {{ rule.syscall }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %}{% if rule.keyname is defined %} -k {{ rule.keyname }}{% endif +%}
+-a {{ rule.action }},{{ rule.filter }} -F arch={{ rule.arch | default(auditd_default_arch) }} -S {{ rule.syscall }}{{ render_filters(rule) }}{{ render_keyname(rule) }}
 {% endif %}
 {% if rule.action is defined and rule.file is not defined and rule.syscall is not defined %}
--a {{ rule.action }},{{ rule.filter }}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% if rule.keyname is defined %} -k {{ rule.keyname }}{% endif +%}
+-a {{ rule.action }},{{ rule.filter }}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{{ render_keyname(rule) }}
 {% endif %}
 {% endfor %}
 {% endif %}
