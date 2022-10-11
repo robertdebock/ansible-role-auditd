@@ -1,0 +1,24 @@
+---
+# Ubuntu 18-20: these are not compiled in
+auditd_config_deprecated_settings:
+  - auditd_end_of_event_timeout
+  - auditd_max_restarts
+  - auditd_overflow_action
+  - auditd_plugin_dir
+  - auditd_q_depth
+  - auditd_tcp_client_max_idle_parser
+  - auditd_tcp_listen_port_parser
+  - auditd_tcp_listen_queue_parser
+  - auditd_tcp_max_per_addr_parser
+  - auditd_transport
+
+auditd_end_of_event_timeout: null
+auditd_plugin_dir: null
+auditd_max_restarts: null
+auditd_overflow_action: null
+auditd_q_depth: null
+auditd_tcp_client_max_idle_parser: null
+auditd_tcp_listen_port_parser: null
+auditd_tcp_listen_queue_parser: null
+auditd_tcp_max_per_addr_parser: null
+auditd_transport: null
