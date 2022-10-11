@@ -7,6 +7,8 @@
   roles:
     - role: ansible-role-auditd
       auditd_local_events: "no"
+      # Variable should be used only when testing with containers.
+      auditd_molecule_container_testing: true
       auditd_rules:
         - file: /var/log/audit/
           keyname: auditlog

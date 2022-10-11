@@ -8,3 +8,6 @@ auditd_default_arch: b64
 auditd_config_commented_out_settings: []
 
 auditd_config_deprecated_settings: []
+
+# This allows us to cheat during testing.
+# auditd_molecule_container_testing: false
