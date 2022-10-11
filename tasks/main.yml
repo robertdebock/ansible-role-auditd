@@ -51,8 +51,9 @@
 
 - name: Import assert.yml
   ansible.builtin.import_tasks: assert.yml
-  run_once: yes
-  delegate_to: localhost
+  # Settings depend on os/version, so no run_once
+  # run_once: yes
+  # delegate_to: localhost
   module_defaults:
     ansible.builtin.assert:
       quiet: yes
