@@ -1,0 +1,16 @@
+---
+# Because use https://www.samdarwin.com/ansible-default-vars/
+# any variable with:
+#   default_auditd_
+# acts as per distro defaut variable
+
+# Defaults differ from Debian defaults
+default_auditd_q_depth: 400
+default_auditd_enable_krb5: null
+default_auditd_verify_email: null
+
+# Not compiler in
+auditd_config_deprecated_settings:
+  - auditd_end_of_event_timeout
+
+auditd_end_of_event_timeout: null
