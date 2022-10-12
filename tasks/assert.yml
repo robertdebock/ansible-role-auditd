@@ -109,10 +109,12 @@
     that:
       - auditd_log_file is string
 
-- name: Test if auditd_log_group is set correctly
+- name: Test if auditd_log_group is optional string
+  when:
+    - auditd_log_group is defined
+    - auditd_log_group not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_log_group is defined
       - auditd_log_group is string
 
 - name: Test if auditd_log_format is set correctly
