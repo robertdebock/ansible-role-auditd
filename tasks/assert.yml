@@ -217,13 +217,23 @@
       - auditd_action_mail_acct is defined
       - auditd_action_mail_acct is string
 
-- name: Test if auditd_admin_space_left is set correctly
+- name: Test if auditd_admin_space_left is optional integer or percentage >=1 <=99
+  when:
+    - auditd_admin_space_left is defined
+    - auditd_admin_space_left not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_admin_space_left is defined
-      - auditd_admin_space_left is number
-      - auditd_admin_space_left >= 0
-      - auditd_admin_space_left <= 100
+      - (auditd_admin_space_left is integer)
+        or (
+          (auditd_admin_space_left is string)
+          and (auditd_admin_space_left is regex('^\d+?$'))
+        )
+        or (
+          (auditd_admin_space_left is string)
+          and (auditd_admin_space_left is regex('^\d+%$'))
+          and (auditd_admin_space_left | int) >= 0
+          and (auditd_admin_space_left | int) <= 100
+        )
 
 - name: Test if auditd_admin_space_left_action is set correctly
   ansible.builtin.assert:
