@@ -43,6 +43,12 @@
 
 {% if auditd_rules is defined %}
 {% for rule in auditd_rules %}
+{% if rule.comment is defined %}
+{% set comment_style = rule.comment_style | default('# ') %}
+{% for line in rule.comment | split('\n') %}
+{{ comment_style }}{{ line }}
+{% endfor %}
+{% endif %}
 {% if rule.file is defined %}
 -w {{ rule.file }}{{ render_comparisons(rule) }}{{ render_filters(rule) }}{{ render_permissions(rule) }}{{ render_keyname(rule) }}
 {% elif rule.syscall is defined %}

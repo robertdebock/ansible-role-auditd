@@ -612,6 +612,8 @@
       ansible.builtin.assert:
         that:
           - auditd_rules is iterable
+          - (_auditd_assert_comments | select("string")) == _auditd_assert_comments
+          - (_auditd_assert_comment_styles | select("regex", "^#[^\n]*$")) == _auditd_assert_comment_styles
           - (_auditd_assert_file_rules | select("string")) == _auditd_assert_file_rules
           - (_auditd_assert_keyname_rules | select("string")) == _auditd_assert_keyname_rules
           - (_auditd_assert_permission_rules | select("string") | map("lower") | select("in", _auditd_assert_permission_values)) == _auditd_assert_permission_rules
@@ -626,6 +628,10 @@
           - (_auditd_assert_action_rules | select("string") | map("lower") | select("in", _auditd_assert_action_values)) == _auditd_assert_action_rules
       vars:
         # per attibute create list of rules where attribute is mapped
+        _auditd_assert_comments: >-
+          {{ auditd_rules | selectattr("comment", "defined") | map(attribute="comment") | list }}
+        _auditd_assert_comment_styles: >-
+          {{ auditd_rules | selectattr("comment_style", "defined") | map(attribute="comment_style") | list }}
         _auditd_assert_file_rules: >-
           {{ auditd_rules | selectattr("file", "defined") | map(attribute="file") | list }}
         _auditd_assert_keyname_rules: >-
