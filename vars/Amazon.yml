@@ -1,0 +1,23 @@
+---
+# Because use https://www.samdarwin.com/ansible-default-vars/
+# any variable with:
+#   default_auditd_
+# acts as per distro defaut variable
+
+# This configuration tries to follow Amazon upstream default configuration as
+# far as possible. Values are inherited from RedHat.
+
+# Defaults
+default_auditd_buffer_size: null
+default_auditd_backlog_wait_time: null
+default_auditd_fail_mode: null
+default_auditd_maximum_rate: null
+default_auditd_enable_flag: null
+default_auditd_rules:
+  - action: never
+    filter: task
+    comment: |-
+      This suppresses syscall auditing for all tasks started
+      with this rule in effect.  Remove it if you need syscall
+      auditing.
+    comment_style: '## '
