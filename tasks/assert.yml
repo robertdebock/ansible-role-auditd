@@ -137,13 +137,19 @@
           )
       - (auditd_max_log_file | int) > 0
 
-- name: Test if auditd_num_logs is set correctly
+- name: Test if auditd_num_logs is optional integer >0 <99
+  when:
+    - auditd_num_logs is defined
+    - auditd_num_logs not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_num_logs is defined
-      - auditd_num_logs is number
-      - auditd_num_logs > 0
-      - auditd_num_logs < 99
+      - (auditd_num_logs is integer)
+        or (
+          (auditd_num_logs is string)
+          and (auditd_num_logs is regex('^\d+$'))
+        )
+      - (auditd_num_logs | int) > 0
+      - (auditd_num_logs | int) < 99
 
 - name: Test if auditd_priority_boost is set correctly
   ansible.builtin.assert:
