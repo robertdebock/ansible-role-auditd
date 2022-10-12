@@ -124,12 +124,18 @@
         )
       - (auditd_freq | int) >= 0
 
-- name: Test if auditd_max_log_file is set correctly
+- name: Test if auditd_max_log_file is optional integer >0
+  when:
+    - auditd_max_log_file is defined
+    - auditd_max_log_file not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_max_log_file is defined
-      - auditd_max_log_file is number
-      - auditd_max_log_file > 0
+      - (auditd_max_log_file is integer)
+        or (
+            (auditd_max_log_file is string)
+            and (auditd_max_log_file is regex('^\d+$'))
+          )
+      - (auditd_max_log_file | int) > 0
 
 - name: Test if auditd_num_logs is set correctly
   ansible.builtin.assert:
