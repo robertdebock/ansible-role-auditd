@@ -191,12 +191,15 @@
       - (auditd_priority_boost | int) in [ 0, 1, 2, 3, 4 ]
     fail_msg: "auditd_priority_boost must be one of '0', '1', '2', '3', '4', was '{{ auditd_priority_boost }}'."
 
-- name: Test if auditd_name_format is set correctly
+- name: Test if auditd_name_format is optional selection
+  when:
+    - auditd_name_format is defined
+    - auditd_name_format not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_name_format is defined
       - auditd_name_format is string
       - auditd_name_format|lower in [ "none", "hostname", "fqd", "numeric", "user" ]
+    fail_msg: "auditd_name_format must be one of 'none', 'hostname', 'fqd', 'numeric', 'user', was '{{ auditd_name_format }}'."
 
 - name: Test if auditd_max_log_file_action is set correctly
   ansible.builtin.assert:
