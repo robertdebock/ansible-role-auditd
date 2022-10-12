@@ -251,10 +251,12 @@
           and (auditd_verify_email|lower in [ "yes", "no" ])
         )
 
-- name: Test if auditd_action_mail_acct is set correctly
+- name: Test if auditd_action_mail_acct is optional string
+  when:
+    - auditd_action_mail_acct is defined
+    - auditd_action_mail_acct not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_action_mail_acct is defined
       - auditd_action_mail_acct is string
 
 - name: Test if auditd_admin_space_left is optional integer or percentage >=1 <=99
