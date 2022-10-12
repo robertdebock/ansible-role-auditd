@@ -307,12 +307,17 @@
       - auditd_disk_error_action|lower in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
     fail_msg: "auditd_disk_error_action must be one of 'ignore', 'syslog', 'rotate', 'exec', 'suspend', 'single', 'halt', was '{{ auditd_disk_error_action }}'."
 
-- name: Test if auditd_use_libwrap is set correctly
+- name: Test if auditd_use_libwrap is optional boolean
+  when:
+    - auditd_use_libwrap is defined
+    - auditd_use_libwrap not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_use_libwrap is defined
-      - auditd_use_libwrap is string
-      - auditd_use_libwrap|lower in [ "yes", "no" ]
+      - (auditd_use_libwrap is boolean)
+        or (
+          (auditd_use_libwrap is string)
+          and (auditd_use_libwrap|lower in [ "yes", "no" ])
+        )
 
 - name: Test if auditd_tcp_listen_queue is optional integer >= 0
   when:
