@@ -263,12 +263,18 @@
       - auditd_use_libwrap is string
       - auditd_use_libwrap|lower in [ "yes", "no" ]
 
-- name: Test if auditd_tcp_listen_queue is set correctly
+- name: Test if auditd_tcp_listen_queue is optional integer >= 0
+  when:
+    - auditd_tcp_listen_queue is defined
+    - auditd_tcp_listen_queue not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_tcp_listen_queue is defined
-      - auditd_tcp_listen_queue is number
-      - auditd_tcp_listen_queue >= 0
+      - (auditd_tcp_listen_queue is integer)
+        or (
+          (auditd_tcp_listen_queue is string)
+          and (auditd_tcp_listen_queue is regex('^\d+$'))
+        )
+      - (auditd_tcp_listen_queue | int) >= 0
 
 - name: Test if auditd_tcp_max_per_addr is set correctly
   ansible.builtin.assert:
