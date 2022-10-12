@@ -20,6 +20,11 @@
 ## Make this bigger for busy systems
 -b {{ auditd_buffer_size }}
 {% endif %}
+{% if auditd_backlog_wait_time is defined and auditd_backlog_wait_time not in [none, ''] %}
+
+## This determine how long to wait in burst of events
+--backlog_wait_time {{ auditd_backlog_wait_time }}
+{% endif %}
 {% if auditd_fail_mode is defined and auditd_fail_mode not in [none, ''] %}
 
 ## Set failure mode to syslog

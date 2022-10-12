@@ -2,6 +2,8 @@
 # defaults file for auditd
 
 default_auditd_buffer_size: 32768
+# Not supported on all configurations
+default_auditd_backlog_wait_time: null
 default_auditd_fail_mode: 1
 default_auditd_maximum_rate: 60
 default_auditd_enable_flag: 1

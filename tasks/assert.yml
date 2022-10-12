@@ -54,6 +54,19 @@
         )
       - (auditd_buffer_size | int) >= 0
 
+- name: Test if auditd_backlog_wait_time is optional integer >=0
+  when:
+    - auditd_backlog_wait_time is defined
+    - auditd_backlog_wait_time not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_backlog_wait_time is integer)
+        or (
+          (auditd_backlog_wait_time is string)
+          and (auditd_backlog_wait_time is regex('^\d+$'))
+        )
+      - (auditd_backlog_wait_time | int) >= 0
+
 - name: Test if auditd_fail_mode is optional selection
   when:
     - auditd_fail_mode is defined
