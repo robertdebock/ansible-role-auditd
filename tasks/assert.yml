@@ -77,12 +77,17 @@
 # auditd.conf settings
 #
 
-- name: Test if auditd_local_events is set correctly
+- name: Test if auditd_local_events is optional boolean
+  when:
+    - auditd_local_events is defined
+    - auditd_local_events not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_local_events is defined
-      - auditd_local_events is string
-      - auditd_local_events|lower in [ "yes", "no" ]
+      - (auditd_local_events is boolean)
+        or (
+          (auditd_local_events is string)
+          and (auditd_local_events|lower in [ "yes", "no" ])
+        )
 
 - name: Test if auditd_write_logs is set correctly
   ansible.builtin.assert:
