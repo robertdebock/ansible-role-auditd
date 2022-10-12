@@ -89,12 +89,17 @@
           and (auditd_local_events|lower in [ "yes", "no" ])
         )
 
-- name: Test if auditd_write_logs is set correctly
+- name: Test if auditd_write_logs is optional boolean
+  when:
+    - auditd_write_logs is defined
+    - auditd_write_logs not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_write_logs is defined
-      - auditd_write_logs is string
-      - auditd_write_logs|lower in [ "yes", "no" ]
+      - (auditd_write_logs is boolean)
+        or (
+          (auditd_write_logs is string)
+          and (auditd_write_logs|lower in [ "yes", "no" ])
+        )
 
 - name: Test if auditd_log_file is set correctly
   ansible.builtin.assert:
