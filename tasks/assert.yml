@@ -53,12 +53,19 @@
         )
       - (auditd_maximum_rate | int) >= 0
 
-- name: Test if auditd_enable_flag is set correctly
+- name: Test if auditd_enable_flag is optional selection
+  when:
+    - auditd_enable_flag is defined
+    - auditd_enable_flag not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_enable_flag is defined
-      - auditd_enable_flag is number
-      - auditd_enable_flag in [ 0, 1, 2 ]
+      - (auditd_enable_flag is integer)
+        or (
+          (auditd_enable_flag is string)
+          and (auditd_enable_flag is regex('^\d+$'))
+        )
+      - (auditd_enable_flag | int) in [ 0, 1, 2 ]
+    fail_msg: "auditd_enable_flag must be one of '0', '1', '2', was '{{ auditd_enable_flag }}'."
 
 #
 # auditd.conf settings
