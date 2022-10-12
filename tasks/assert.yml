@@ -111,12 +111,18 @@
       - auditd_flush is string
       - auditd_flush|lower in [ "none", "incremental", "incremental_async", "data", "sync" ]
 
-- name: Test if auditd_freq is set correctly
+- name: Test if auditd_freq is optional integer >=0
+  when:
+    - auditd_freq is defined
+    - auditd_freq not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_freq is defined
-      - auditd_freq is number
-      - auditd_freq >= 0
+      - (auditd_freq is integer)
+        or (
+          (auditd_freq is string)
+          and (auditd_freq is regex('^\d+$'))
+        )
+      - (auditd_freq | int) >= 0
 
 - name: Test if auditd_max_log_file is set correctly
   ansible.builtin.assert:
