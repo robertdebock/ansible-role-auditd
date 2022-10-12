@@ -379,12 +379,17 @@
     that:
       - auditd_krb5_principal is string
 
-- name: Test if auditd_distribute_network is set correctly
+- name: Test if auditd_distribute_network is optional boolean
+  when:
+    - auditd_distribute_network is defined
+    - auditd_distribute_network not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_distribute_network is defined
-      - auditd_distribute_network is string
-      - auditd_distribute_network|lower in [ "yes", "no" ]
+      - (auditd_distribute_network is boolean)
+        or (
+          (auditd_distribute_network is string)
+          and (auditd_distribute_network|lower in [ "yes", "no" ])
+        )
 
 #
 # audit rules
