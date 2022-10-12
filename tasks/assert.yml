@@ -399,7 +399,7 @@
     that:
       - auditd_disp_qos is string
       - auditd_disp_qos|lower in [ "lossy", "lossless" ]
-    fail_msg: "auditd_disp_qos must be one of 'lossy', 'lossless'."
+    fail_msg: "auditd_disp_qos must be one of 'lossy', 'lossless', was '{{ auditd_disp_qos }}'."
 
 - name: Test if auditd_dispatcher is optional string
   when:
