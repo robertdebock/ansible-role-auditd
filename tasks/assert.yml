@@ -277,12 +277,15 @@
           and (auditd_admin_space_left | int) <= 100
         )
 
-- name: Test if auditd_admin_space_left_action is set correctly
+- name: Test if auditd_admin_space_left_action is optional selection
+  when:
+    - auditd_admin_space_left_action is defined
+    - auditd_admin_space_left_action not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_admin_space_left_action is defined
       - auditd_admin_space_left_action is string
       - auditd_admin_space_left_action|lower in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
+    fail_msg: "auditd_admin_space_left_action must be one of 'ignore', 'syslog', 'rotate', 'email', 'exec', 'suspend', 'single', 'halt', was '{{ auditd_admin_space_left_action }}'."
 
 - name: Test if auditd_disk_full_action is set correctly
   ansible.builtin.assert:
