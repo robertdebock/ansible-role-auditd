@@ -3,7 +3,7 @@
 # Module configuration values
 #
 
-- name: Test if auditd_rules_file is set correctly
+- name: Test if auditd_rules_file is mandatory string
   ansible.builtin.assert:
     that:
       - auditd_rules_file is defined
