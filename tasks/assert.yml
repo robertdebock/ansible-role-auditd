@@ -151,12 +151,19 @@
       - (auditd_num_logs | int) > 0
       - (auditd_num_logs | int) < 99
 
-- name: Test if auditd_priority_boost is set correctly
+- name: Test if auditd_priority_boost is optional selection
+  when:
+    - auditd_priority_boost is defined
+    - auditd_priority_boost not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_priority_boost is defined
-      - auditd_priority_boost is number
-      - auditd_priority_boost in [ 0, 1, 2, 3, 4 ]
+      - (auditd_priority_boost is integer)
+        or (
+          (auditd_priority_boost is string)
+          and (auditd_priority_boost is regex('^\d+$'))
+        )
+      - (auditd_priority_boost | int) in [ 0, 1, 2, 3, 4 ]
+    fail_msg: "auditd_priority_boost must be one of '0', '1', '2', '3', '4', was '{{ auditd_priority_boost }}'."
 
 - name: Test if auditd_name_format is set correctly
   ansible.builtin.assert:
