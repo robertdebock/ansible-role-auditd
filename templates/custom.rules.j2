@@ -25,8 +25,11 @@
 ## Set failure mode to syslog
 -f {{ auditd_fail_mode }}
 {% endif %}
+{% if auditd_maximum_rate is defined and auditd_maximum_rate not in [none, ''] %}
+
 # Set the maximum amount of messages per second
 -r {{ auditd_maximum_rate }}
+{% endif %}
 # Set enable flag (0=disable, 1=enable, 2=locked, requires reboot to unlock)
 -e {{ auditd_enable_flag }}
 

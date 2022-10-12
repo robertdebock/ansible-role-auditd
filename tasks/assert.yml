@@ -40,12 +40,18 @@
       - (auditd_fail_mode | int) in [ 0, 1, 2 ]
     fail_msg: "auditd_fail_mode must be one of '0', '1', '2', was '{{ auditd_fail_mode }}'."
 
-- name: Test if auditd_maximum_rate is set correctly
+- name: Test if auditd_maximum_rate is optional integer >= 0
+  when:
+    - auditd_maximum_rate is defined
+    - auditd_maximum_rate not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_maximum_rate is defined
-      - auditd_maximum_rate is number
-      - auditd_maximum_rate >= 0
+      - (auditd_maximum_rate is integer)
+        or (
+          (auditd_maximum_rate is string)
+          and (auditd_maximum_rate is regex('^\d+$'))
+        )
+      - (auditd_maximum_rate | int) >= 0
 
 - name: Test if auditd_enable_flag is set correctly
   ansible.builtin.assert:
