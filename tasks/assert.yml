@@ -179,13 +179,23 @@
       - auditd_max_log_file_action is string
       - auditd_max_log_file_action|lower in [ "ignore", "syslog", "suspend", "rotate" ]
 
-- name: Test if auditd_space_left is set correctly
+- name: Test if auditd_space_left is optional integer or percentage >=1 <=99
+  when:
+    - auditd_space_left is defined
+    - auditd_space_left not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_space_left is defined
-      - auditd_space_left is number
-      - auditd_space_left >= 0
-      - auditd_space_left <= 100
+      - (auditd_space_left is integer)
+        or (
+          (auditd_space_left is string)
+          and (auditd_space_left is regex('^\d+?$'))
+        )
+        or (
+          (auditd_space_left is string)
+          and (auditd_space_left is regex('^\d+%$'))
+          and (auditd_space_left | int) >= 0
+          and (auditd_space_left | int) <= 100
+        )
 
 - name: Test if auditd_space_left_action is set correctly
   ansible.builtin.assert:
