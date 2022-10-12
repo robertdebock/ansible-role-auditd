@@ -290,12 +290,18 @@
       - (auditd_tcp_max_per_addr | int) >= 0
       - (auditd_tcp_max_per_addr | int) <= 1024
 
-- name: Test if auditd_tcp_client_max_idle is set correctly
+- name: Test if auditd_tcp_client_max_idle is optional integer >=0
+  when:
+    - auditd_tcp_client_max_idle is defined
+    - auditd_tcp_client_max_idle not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_tcp_client_max_idle is defined
-      - auditd_tcp_client_max_idle is number
-      - auditd_tcp_client_max_idle >= 0
+      - (auditd_tcp_client_max_idle is integer)
+        or (
+          (auditd_tcp_client_max_idle is string)
+          and (auditd_tcp_client_max_idle is regex('^\d+$'))
+        )
+      - (auditd_tcp_client_max_idle | int) >= 0
 
 - name: Test if auditd_enable_krb5 is set correctly
   ansible.builtin.assert:
