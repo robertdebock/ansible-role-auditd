@@ -14,8 +14,12 @@
 
 ## First rule - delete all
 -D
-# Set buffer size
+{% if auditd_buffer_size is defined and auditd_buffer_size not in [none, ''] %}
+
+## Increase the buffers to survive stress events.
+## Make this bigger for busy systems
 -b {{ auditd_buffer_size }}
+{% endif %}
 # Set failure behavior
 -f {{ auditd_fail_mode }}
 # Set the maximum amount of messages per second

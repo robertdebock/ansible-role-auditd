@@ -13,13 +13,18 @@
 # audit.rules flag values
 #
 
-- name: Test if auditd_buffer_size is set correctly
+- name: Test if auditd_buffer_size is optional integer >=0
+  when:
+    - auditd_buffer_size is defined
+    - auditd_buffer_size not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_buffer_size is defined
-      - auditd_buffer_size is number
-      - auditd_buffer_size >= 0
-      - auditd_buffer_size <= 65000
+      - (auditd_buffer_size is integer)
+        or (
+          (auditd_buffer_size is string)
+          and (auditd_buffer_size is regex('^\d+$'))
+        )
+      - (auditd_buffer_size | int) >= 0
 
 - name: Test if auditd_fail_mode is set correctly
   ansible.builtin.assert:
