@@ -101,10 +101,12 @@
           and (auditd_write_logs|lower in [ "yes", "no" ])
         )
 
-- name: Test if auditd_log_file is set correctly
+- name: Test if auditd_log_file is optional string
+  when:
+    - auditd_log_file is defined
+    - auditd_log_file not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_log_file is defined
       - auditd_log_file is string
 
 - name: Test if auditd_log_group is set correctly
