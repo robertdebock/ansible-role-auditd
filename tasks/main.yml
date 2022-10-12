@@ -14,6 +14,15 @@
     name: "{{ ['bash'] + auditd_packages | list }}"
     state: present
 
+- name: "Create directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0750"
+  loop:
+    - "{{ auditd_config_directory }}"
+    - "{{ auditd_config_directory }}/rules.d"
+
 - name: Configure auditd
   ansible.builtin.template:
     src: "{{ auditd_config_file }}.j2"
@@ -21,12 +30,6 @@
     mode: "0640"
   notify:
     - Restart auditd
-
-- name: Create rules.d directory
-  ansible.builtin.file:
-    path: "{{ auditd_config_directory }}/rules.d"
-    state: directory
-    mode: "0750"
 
 - name: Place custom.rules
   ansible.builtin.template:
