@@ -287,12 +287,15 @@
       - auditd_admin_space_left_action|lower in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
     fail_msg: "auditd_admin_space_left_action must be one of 'ignore', 'syslog', 'rotate', 'email', 'exec', 'suspend', 'single', 'halt', was '{{ auditd_admin_space_left_action }}'."
 
-- name: Test if auditd_disk_full_action is set correctly
+- name: Test if auditd_disk_full_action is optional selection
+  when:
+    - auditd_disk_full_action is defined
+    - auditd_disk_full_action not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_disk_full_action is defined
       - auditd_disk_full_action is string
       - auditd_disk_full_action|lower in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
+    fail_msg: "auditd_disk_full_action must be one of 'ignore', 'syslog', 'rotate', 'exec', 'suspend', 'single', 'halt', was '{{ auditd_disk_full_action }}'."
 
 - name: Test if auditd_disk_error_action is set correctly
   ansible.builtin.assert:
