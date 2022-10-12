@@ -359,12 +359,17 @@
         )
       - (auditd_tcp_client_max_idle | int) >= 0
 
-- name: Test if auditd_enable_krb5 is set correctly
+- name: Test if auditd_enable_krb5 is optional boolean
+  when:
+    - auditd_enable_krb5 is defined
+    - auditd_enable_krb5 not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_enable_krb5 is defined
-      - auditd_enable_krb5 is string
-      - auditd_enable_krb5|lower in [ "yes", "no" ]
+      - (auditd_enable_krb5 is boolean)
+        or (
+          (auditd_enable_krb5 is string)
+          and (auditd_enable_krb5|lower in [ "yes", "no" ])
+        )
 
 - name: Test if auditd_krb5_principal is set correctly
   ansible.builtin.assert:
