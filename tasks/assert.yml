@@ -9,6 +9,12 @@
       - auditd_rules_file is defined
       - auditd_rules_file is string
 
+- name: Test if auditd_manage_rules is mandatory boolean
+  ansible.builtin.assert:
+    that:
+      - auditd_manage_rules is defined
+      - auditd_manage_rules is boolean
+
 #
 # audit.rules flag values
 #
@@ -322,12 +328,6 @@
       - auditd_distribute_network is defined
       - auditd_distribute_network is string
       - auditd_distribute_network|lower in [ "yes", "no" ]
-
-- name: Test if auditd_manage_rules is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_manage_rules is defined
-      - auditd_manage_rules is boolean
 
 #
 # audit rules
