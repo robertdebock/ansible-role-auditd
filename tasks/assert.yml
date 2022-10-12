@@ -276,13 +276,19 @@
         )
       - (auditd_tcp_listen_queue | int) >= 0
 
-- name: Test if auditd_tcp_max_per_addr is set correctly
+- name: Test if auditd_tcp_max_per_addr is optional integer >=0 <=1024
+  when:
+    - auditd_tcp_max_per_addr is defined
+    - auditd_tcp_max_per_addr not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_tcp_max_per_addr is defined
-      - auditd_tcp_max_per_addr is number
-      - auditd_tcp_max_per_addr >= 0
-      - auditd_tcp_max_per_addr <= 1024
+      - (auditd_tcp_max_per_addr is integer)
+        or (
+          (auditd_tcp_max_per_addr is string)
+          and (auditd_tcp_max_per_addr is regex('^\d+$'))
+        )
+      - (auditd_tcp_max_per_addr | int) >= 0
+      - (auditd_tcp_max_per_addr | int) <= 1024
 
 - name: Test if auditd_tcp_client_max_idle is set correctly
   ansible.builtin.assert:
