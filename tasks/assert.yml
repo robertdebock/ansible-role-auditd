@@ -127,12 +127,15 @@
       - auditd_log_format|lower in [ "enriched", "nolog", "raw" ]
     fail_msg: "auditd_log_format must be one of 'enriched', 'nolog', 'raw', was '{{ auditd_log_format }}'."
 
-- name: Test if auditd_flush is set correctly
+- name: Test if auditd_flush is optional selection
+  when:
+    - auditd_flush is defined
+    - auditd_flush not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_flush is defined
       - auditd_flush is string
       - auditd_flush|lower in [ "none", "incremental", "incremental_async", "data", "sync" ]
+    fail_msg: "auditd_flush must be one of 'none', 'incremental', 'incremental_async', 'data', 'sync', '{{ auditd_flush }}'."
 
 - name: Test if auditd_freq is optional integer >=0
   when:
