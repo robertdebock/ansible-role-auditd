@@ -20,8 +20,11 @@
 ## Make this bigger for busy systems
 -b {{ auditd_buffer_size }}
 {% endif %}
-# Set failure behavior
+{% if auditd_fail_mode is defined and auditd_fail_mode not in [none, ''] %}
+
+## Set failure mode to syslog
 -f {{ auditd_fail_mode }}
+{% endif %}
 # Set the maximum amount of messages per second
 -r {{ auditd_maximum_rate }}
 # Set enable flag (0=disable, 1=enable, 2=locked, requires reboot to unlock)

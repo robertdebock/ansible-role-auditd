@@ -26,12 +26,19 @@
         )
       - (auditd_buffer_size | int) >= 0
 
-- name: Test if auditd_fail_mode is set correctly
+- name: Test if auditd_fail_mode is optional selection
+  when:
+    - auditd_fail_mode is defined
+    - auditd_fail_mode not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_fail_mode is defined
-      - auditd_fail_mode is number
-      - auditd_fail_mode in [ 0, 1, 2 ]
+      - (auditd_fail_mode is integer)
+        or (
+          (auditd_fail_mode is string)
+          and (auditd_fail_mode is regex('^\d+$'))
+        )
+      - (auditd_fail_mode | int) in [ 0, 1, 2 ]
+    fail_msg: "auditd_fail_mode must be one of '0', '1', '2', was '{{ auditd_fail_mode }}'."
 
 - name: Test if auditd_maximum_rate is set correctly
   ansible.builtin.assert:
