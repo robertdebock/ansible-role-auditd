@@ -371,10 +371,12 @@
           and (auditd_enable_krb5|lower in [ "yes", "no" ])
         )
 
-- name: Test if auditd_krb5_principal is set correctly
+- name: Test if auditd_krb5_principal is optional string
+  when:
+    - auditd_krb5_principal is defined
+    - auditd_krb5_principal not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_krb5_principal is defined
       - auditd_krb5_principal is string
 
 - name: Test if auditd_distribute_network is set correctly
