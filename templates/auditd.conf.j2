@@ -12,9 +12,12 @@
 {% endmacro %}
 {% macro render_option(auditd_key, upper=false) %}
 {%   set key = auditd_key[7:] %}
-{# value can have legit value '0', so 'and value' is not possible #}
-{%   if auditd_key in vars and vars[auditd_key] not in [none, ''] %}
+{# Ignore deprecated first #}
+{%   if auditd_key in (auditd_config_deprecated_settings | default([])) %}
+{# Value can have legit value '0', so 'and value' is not possible #}
+{%   elif auditd_key in vars and vars[auditd_key] not in [none, ''] %}
 {{ render_value(key, vars[auditd_key], upper) -}}
+{# Value is not set, but we want it to show as commented out #}
 {%   elif auditd_key in auditd_config_commented_out_settings %}
 {%     set default_key = 'default_' + auditd_key %}
 {%     if default_key in vars and vars[default_key] not in [none, ''] %}

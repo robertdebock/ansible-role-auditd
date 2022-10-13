@@ -6,3 +6,5 @@ auditd_use_upper_values: false
 auditd_default_arch: b64
 
 auditd_config_commented_out_settings: []
+
+auditd_config_deprecated_settings: []
