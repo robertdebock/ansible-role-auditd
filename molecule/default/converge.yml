@@ -7,6 +7,7 @@
   roles:
     - role: ansible-role-auditd
       auditd_local_events: "no"
+      auditd_priority_boost: 0
       # Variable should be used only when testing with containers.
       auditd_molecule_container_testing: true
       auditd_rules:
