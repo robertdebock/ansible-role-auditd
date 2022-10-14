@@ -117,3 +117,13 @@
     name: "{{ auditd_service }}"
     state: started
     enabled: yes
+
+# Need to flush handlers to allow to check runtime settings next
+- name: Flush pending auditd updates
+  ansible.builtin.meta: flush_handlers
+
+- name: Import status_check.yml
+  ansible.builtin.import_tasks: status_check.yml
+  module_defaults:
+    ansible.builtin.assert:
+      quiet: yes
