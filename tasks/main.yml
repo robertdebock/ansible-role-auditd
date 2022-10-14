@@ -60,6 +60,15 @@
   tags:
     - assert_parameters
 
+- name: Import cmdline.yml
+  ansible.builtin.import_tasks: cmdline.yml
+  module_defaults:
+    ansible.builtin.assert:
+      quiet: yes
+  # It is not feasible to test kernel cmdline
+  tags:
+    - notest
+
 - name: Install requirements
   ansible.builtin.package:
     name: "{{ ['bash'] + auditd_packages | list }}"
