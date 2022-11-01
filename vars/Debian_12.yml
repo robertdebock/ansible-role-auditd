@@ -1,0 +1,8 @@
+---
+# Because use https://www.samdarwin.com/ansible-default-vars/
+# any variable with:
+#   default_auditd_
+# acts as per distro defaut variable
+
+# Defaults
+default_auditd_enable_krb5: null

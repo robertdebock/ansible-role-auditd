@@ -1,26 +1,60 @@
 {{ ansible_managed | comment }}
+{% macro render_comparisons(rule) %}
+{% if rule.comparisons is defined %}{% for comparison in rule.comparisons %} -C {{ comparison }}{% endfor %}{% endif -%}
+{% endmacro %}
+{% macro render_filters(rule) %}
+{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif -%}
+{% endmacro %}
+{% macro render_permissions(rule) %}
+{% if rule.permissions is defined %} -p {% for permission in rule.permissions %}{{ _auditd_permissions[permission] }}{% endfor %}{% endif -%}
+{% endmacro %}
+{% macro render_keyname(rule) %}
+{% if rule.keyname is defined %} -k {{ rule.keyname }}{% endif -%}
+{% endmacro %}
 
-# Delete all previous rules
+## First rule - delete all
 -D
-# Set buffer size
+{% if auditd_buffer_size is defined and auditd_buffer_size not in [none, ''] %}
+
+## Increase the buffers to survive stress events.
+## Make this bigger for busy systems
 -b {{ auditd_buffer_size }}
-# Set failure behavior
+{% endif %}
+{% if auditd_backlog_wait_time is defined and auditd_backlog_wait_time not in [none, ''] %}
+
+## This determine how long to wait in burst of events
+--backlog_wait_time {{ auditd_backlog_wait_time }}
+{% endif %}
+{% if auditd_fail_mode is defined and auditd_fail_mode not in [none, ''] %}
+
+## Set failure mode to syslog
 -f {{ auditd_fail_mode }}
+{% endif %}
+{% if auditd_maximum_rate is defined and auditd_maximum_rate not in [none, ''] %}
+
 # Set the maximum amount of messages per second
 -r {{ auditd_maximum_rate }}
+{% endif %}
+{% if auditd_enable_flag is defined and auditd_enable_flag not in [none, ''] %}
+
 # Set enable flag (0=disable, 1=enable, 2=locked, requires reboot to unlock)
 -e {{ auditd_enable_flag }}
+{% endif %}
 
 {% if auditd_rules is defined %}
 {% for rule in auditd_rules %}
+{% if rule.comment is defined %}
+{% set comment_style = rule.comment_style | default('# ') %}
+{% for line in rule.comment | split('\n') %}
+{{ comment_style }}{{ line }}
+{% endfor %}
+{% endif %}
 {% if rule.file is defined %}
--w {{ rule.file }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %}{% if rule.permissions is defined %} -p {% for permission in rule.permissions %}{{ _auditd_permissions[permission] }}{% endfor %}{% endif %} -k {{ rule.keyname }}
-{% endif %}
-{% if rule.syscall is defined %}
--a {{ rule.action }},{{ rule.filter }} -F arch={{ rule.arch | default(auditd_default_arch) }} -S {{ rule.syscall }}{% if rule.filters is defined %}{% for filter in rule.filters %} -F {{ filter }}{% endfor %}{% endif %} -k {{ rule.keyname }}
-{% endif %}
-{% if rule.action is defined and rule.file is not defined and rule.syscall is not defined %}
--a {{ rule.action }},{{ rule.filter }}{% for filter in rule.filters %} -F {{ filter }}{% endfor %} -k {{ rule.keyname }}
+-w {{ rule.file }}{{ render_comparisons(rule) }}{{ render_filters(rule) }}{{ render_permissions(rule) }}{{ render_keyname(rule) }}
+{% elif rule.syscall is defined %}
+-a {{ rule.action }},{{ rule.filter }} -F arch={{ rule.arch | default(auditd_default_arch) }} -S {{ rule.syscall }}{{ render_comparisons(rule) }}{{ render_filters(rule) }}{{ render_keyname(rule) }}
+{% elif rule.action is defined and rule.file is not defined and rule.syscall is not defined %}
+-a {{ rule.action }},{{ rule.filter }}{{ render_comparisons(rule) }}{{ render_filters(rule) }}{{ render_permissions(rule) }}{{ render_keyname(rule) }}
 {% endif %}
 {% endfor %}
 {% endif %}

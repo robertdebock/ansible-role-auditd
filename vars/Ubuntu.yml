@@ -1,0 +1,22 @@
+---
+# Because use https://www.samdarwin.com/ansible-default-vars/
+# any variable with:
+#   default_auditd_
+# acts as per distro defaut variable
+
+# This configuration tries to follow Ubuntu upstream default configuration as
+# far as possible. Some values are inherited from Debian.
+
+# Defaults
+default_auditd_backlog_wait_time: 0
+
+default_auditd_log_format: RAW
+default_auditd_disp_qos: lossy
+default_auditd_dispatcher: /sbin/audispd
+default_auditd_transport: null
+default_auditd_q_depth: null
+default_auditd_overflow_action: null
+default_auditd_max_restarts: null
+default_auditd_plugin_dir: null
+default_auditd_end_of_event_timeout: null
+default_auditd_enable_krb5: false

@@ -5,13 +5,45 @@
   ansible.builtin.command:
     cmd: augenrules
   notify:
-    - Load rules
+    - >-
+      Load rules{% if auditd_molecule_container_testing | default(false) %} molecule version{% endif %}
 
 - name: Load rules
   ansible.builtin.command:
     cmd: augenrules --load
-  when:
-    - ansible_connection not in [ "container", "docker", "community.docker.docker" ]
+
+# This is here because molecule testing with containers does not have
+# CAP_AUDIT_CONTROL and it allows us to cheat a bit. If variable
+# auditd_molecule_container_testing is true, new rules are loaded using
+# stop+start method as augenrules method to load using auditctl -R does not
+# work.
+- name: Load rules molecule version
+  ansible.builtin.shell: |
+    set -x
+    # Usually the service does not support stop/restart
+    systemctl kill {{ auditd_service }}
+    # Convoluted start method because is-active seems to return
+    # inactive/activating when service is starting.
+    systemctl start {{ auditd_service }}
+    sleep 1
+    # Check 3 times in a row
+    check="aaa"
+    while [ -n "$check" ]; do
+      sleep 1
+      if [ "$(systemctl is-active {{ auditd_service }})" = "inactive" ]; then
+        systemctl start {{ auditd_service }}
+        sleep 1
+        while [ "$(systemctl is-active {{ auditd_service }})" = "activating" ]; do
+          sleep 1
+        done
+      fi
+      while [ "$(systemctl is-active {{ auditd_service }})" = "activating" ]; do
+        sleep 1
+      done
+      check="${check#a}"
+    done
+    # Ensure it is running
+    systemctl is-active {{ auditd_service }}
 
 - name: Restart auditd
   ansible.builtin.service:

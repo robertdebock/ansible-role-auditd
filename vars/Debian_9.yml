@@ -1,0 +1,37 @@
+---
+# Because use https://www.samdarwin.com/ansible-default-vars/
+# any variable with:
+#   default_auditd_
+# acts as per distro defaut variable
+
+default_auditd_backlog_wait_time: 0
+
+# Defaults differ from main defaults
+default_auditd_log_group: root
+default_auditd_log_format: RAW
+default_auditd_disp_qos: lossy
+default_auditd_dispatcher: /sbin/audispd
+default_auditd_overflow_action: null
+default_auditd_max_restarts: null
+default_auditd_enable_krb5: false
+
+# Not compiler in
+auditd_config_deprecated_settings:
+  - auditd_end_of_event_timeout
+  - auditd_max_restarts
+  - auditd_overflow_action
+  - auditd_plugin_dir
+  - auditd_q_depth
+  - auditd_transport
+  - auditd_verify_email
+
+default_auditd_end_of_event_timeout: null
+auditd_max_restarts: null
+auditd_overflow_action: null
+auditd_plugin_dir: null
+auditd_q_depth: null
+auditd_transport: null
+auditd_verify_email: null
+
+# Use compiled in defaults, comment out
+default_auditd_tcp_listen_port: 60

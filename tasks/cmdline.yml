@@ -1,0 +1,42 @@
+---
+- name: Get kernel parameters
+  ansible.builtin.slurp:
+    src: /proc/cmdline
+  register: r_auditd_proc_cmdline
+  changed_when: false
+  check_mode: false
+  failed_when:
+    - r_auditd_proc_cmdline.content | length == 0
+
+# This is used as warning, not fail, assert does not work with failed_when
+- name: Ensure kernel parameters match our configured settings  # noqa ignore-errors
+  vars:
+    auditd_proc_cmdline_list: >-
+      {{ r_auditd_proc_cmdline.content | b64decode | trim | split
+      | select('regex', '^audit')
+      | map('regex_findall', '^([^=]+)=(.*)') | list
+      }}
+    auditd_proc_cmdline_settings: >-
+      {{ dict(auditd_proc_cmdline_list | map('flatten')) }}
+  when:
+    - item.cmdline in auditd_proc_cmdline_settings
+  ansible.builtin.assert:
+    that:
+      - (
+          (item.configuration in vars)
+          and (vars[item.configuration] not in [none, ''])
+          and ((auditd_proc_cmdline_settings[item.cmdline]|int) == (vars[item.configuration]|int))
+        ) or (
+          (item.cmdline == 'audit')
+          and ((auditd_proc_cmdline_settings[item.cmdline]|int) >= 1)
+        )
+    fail_msg: >-
+      [WARNING] Audit settings in kernel {{ item.cmdline }} does not match configuration:
+      audit={{ auditd_proc_cmdline_settings[item.cmdline] }} <=> {{ item.configuration }}={{ vars[item.configuration] }}
+      these should align, but kernel configuration is not changed here.
+  ignore_errors: true
+  loop:
+    - cmdline: audit
+      configuration: auditd_enable_flag
+    - cmdline: audit_backlog_limit
+      configuration: auditd_buffer_size

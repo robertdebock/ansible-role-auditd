@@ -1,341 +1,669 @@
 ---
+#
+# Module configuration values
+#
 
-- name: Test if auditd_buffer_size is set correctly
+- name: Test if auditd_rules_file is mandatory string
   ansible.builtin.assert:
     that:
-      - auditd_buffer_size is defined
-      - auditd_buffer_size is number
-      - auditd_buffer_size >= 0
-      - auditd_buffer_size <= 65000
-    quiet: yes
+      - auditd_rules_file is defined
+      - auditd_rules_file is string
 
-- name: Test if auditd_fail_mode is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_fail_mode is defined
-      - auditd_fail_mode is number
-      - auditd_fail_mode in [ 0, 1, 2 ]
-    quiet: yes
-
-- name: Test if auditd_maximum_rate is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_maximum_rate is defined
-      - auditd_maximum_rate is number
-      - auditd_maximum_rate >= 0
-    quiet: yes
-
-- name: Test if auditd_enable_flag is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_enable_flag is defined
-      - auditd_enable_flag is number
-      - auditd_enable_flag in [ 0, 1, 2 ]
-    quiet: yes
-
-- name: Test if auditd_local_events is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_local_events is defined
-      - auditd_local_events is string
-      - auditd_local_events in [ "yes", "no" ]
-    quiet: yes
-
-- name: Test if auditd_write_logs is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_write_logs is defined
-      - auditd_write_logs is string
-      - auditd_write_logs in [ "yes", "no" ]
-    quiet: yes
-
-- name: Test if auditd_log_file is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_log_file is defined
-      - auditd_log_file is string
-    quiet: yes
-
-- name: Test if auditd_log_group is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_log_group is defined
-      - auditd_log_group is string
-    quiet: yes
-
-- name: Test if auditd_log_format is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_log_format is defined
-      - auditd_log_format is string
-      - auditd_log_format in [ "ENRICHED", "NOLOG", "RAW" ]
-    quiet: yes
-
-- name: Test if auditd_flush is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_flush is defined
-      - auditd_flush is string
-      - auditd_flush in [ "none", "incremental", "incremental_async", "data", "sync" ]
-    quiet: yes
-
-- name: Test if auditd_freq is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_freq is defined
-      - auditd_freq is number
-      - auditd_freq >= 0
-    quiet: yes
-
-- name: Test if auditd_max_log_file is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_max_log_file is defined
-      - auditd_max_log_file is number
-      - auditd_max_log_file > 0
-    quiet: yes
-
-- name: Test if auditd_num_logs is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_num_logs is defined
-      - auditd_num_logs is number
-      - auditd_num_logs > 0
-      - auditd_num_logs < 99
-    quiet: yes
-
-- name: Test if auditd_priority_boost is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_priority_boost is defined
-      - auditd_priority_boost is number
-      - auditd_priority_boost in [ 0, 1, 2, 3, 4 ]
-    quiet: yes
-
-- name: Test if auditd_name_format is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_name_format is defined
-      - auditd_name_format is string
-      - auditd_name_format in [ "none", "hostname", "fqd", "numeric", "user" ]
-    quiet: yes
-
-- name: Test if auditd_max_log_file_action is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_max_log_file_action is defined
-      - auditd_max_log_file_action is string
-      - auditd_max_log_file_action in [ "ignore", "syslog", "suspend", "rotate" ]
-    quiet: yes
-
-- name: Test if auditd_space_left is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_space_left is defined
-      - auditd_space_left is number
-      - auditd_space_left >= 0
-      - auditd_space_left <= 100
-    quiet: yes
-
-- name: Test if auditd_space_left_action is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_space_left_action is defined
-      - auditd_space_left_action is string
-      - auditd_space_left_action in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
-    quiet: yes
-
-- name: Test if auditd_verify_email is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_verify_email is defined
-      - auditd_verify_email is string
-      - auditd_verify_email in [ "yes", "no" ]
-    quiet: yes
-
-- name: Test if auditd_action_mail_acct is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_action_mail_acct is defined
-      - auditd_action_mail_acct is string
-    quiet: yes
-
-- name: Test if auditd_admin_space_left is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_admin_space_left is defined
-      - auditd_admin_space_left is number
-      - auditd_admin_space_left >= 0
-      - auditd_admin_space_left <= 100
-    quiet: yes
-
-- name: Test if auditd_admin_space_left_action is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_admin_space_left_action is defined
-      - auditd_admin_space_left_action is string
-      - auditd_admin_space_left_action in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
-    quiet: yes
-
-- name: Test if auditd_disk_full_action is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_disk_full_action is defined
-      - auditd_disk_full_action is string
-      - auditd_disk_full_action in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
-    quiet: yes
-
-- name: Test if auditd_disk_error_action is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_disk_error_action is defined
-      - auditd_disk_error_action is string
-      - auditd_disk_error_action in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
-    quiet: yes
-
-- name: Test if auditd_use_libwrap is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_use_libwrap is defined
-      - auditd_use_libwrap is string
-      - auditd_use_libwrap in [ "yes", "no" ]
-    quiet: yes
-
-- name: Test if auditd_tcp_listen_queue is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_tcp_listen_queue is defined
-      - auditd_tcp_listen_queue is number
-      - auditd_tcp_listen_queue >= 0
-    quiet: yes
-
-- name: Test if auditd_tcp_max_per_addr is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_tcp_max_per_addr is defined
-      - auditd_tcp_max_per_addr is number
-      - auditd_tcp_max_per_addr >= 0
-      - auditd_tcp_max_per_addr <= 1024
-    quiet: yes
-
-- name: Test if auditd_tcp_client_max_idle is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_tcp_client_max_idle is defined
-      - auditd_tcp_client_max_idle is number
-      - auditd_tcp_client_max_idle >= 0
-    quiet: yes
-
-- name: Test if auditd_enable_krb5 is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_enable_krb5 is defined
-      - auditd_enable_krb5 is string
-      - auditd_enable_krb5 in [ "yes", "no" ]
-    quiet: yes
-
-- name: Test if auditd_krb5_principal is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_krb5_principal is defined
-      - auditd_krb5_principal is string
-    quiet: yes
-
-- name: Test if auditd_distribute_network is set correctly
-  ansible.builtin.assert:
-    that:
-      - auditd_distribute_network is defined
-      - auditd_distribute_network is string
-      - auditd_distribute_network in [ "yes", "no" ]
-    quiet: yes
-
-- name: Test if auditd_manage_rules is set correctly
+- name: Test if auditd_manage_rules is mandatory boolean
   ansible.builtin.assert:
     that:
       - auditd_manage_rules is defined
       - auditd_manage_rules is boolean
-    quiet: yes
 
-- name: Test if auditd_rules is set correctly
+- name: Test if auditd_use_upper_values is mandatory boolean
   ansible.builtin.assert:
     that:
-      - auditd_rules is iterable
-    quiet: yes
+      - auditd_use_upper_values is defined
+      - auditd_use_upper_values is boolean
+
+- name: Test if auditd_config_commented_out_settings is mandatory list
+  ansible.builtin.assert:
+    that:
+      - auditd_config_commented_out_settings is iterable
+      - auditd_config_commented_out_settings is not string
+      - auditd_config_commented_out_settings is not mapping
+
+- name: Test if auditd_config_commented_out_settings values are set correctly
+  ansible.builtin.assert:
+    that:
+      - item is defined
+      - item is string
+      - item is match('^auditd_')
+      - ('default_' ~ item) in vars
+  loop: "{{ auditd_config_commented_out_settings }}"
+
+- name: Test if auditd_config_deprecated_settings is mandatory list
+  ansible.builtin.assert:
+    that:
+      - auditd_config_deprecated_settings is iterable
+      - auditd_config_deprecated_settings is not string
+      - auditd_config_deprecated_settings is not mapping
+
+- name: Test if auditd_config_deprecated_settings values are set correctly
+  ansible.builtin.assert:
+    that:
+      - item is defined
+      - item is string
+      - item is match('^auditd_')
+      - item in vars
+  loop: "{{ auditd_config_deprecated_settings }}"
+
+#
+# audit.rules flag values
+#
+
+- name: Test if auditd_buffer_size is optional integer >=0
   when:
-    - auditd_rules is defined
-
-- name: Test if item.file in auditd_rules is set correctly
+    - auditd_buffer_size is defined
+    - auditd_buffer_size not in [none, '']
   ansible.builtin.assert:
     that:
-      - item.keyname is defined
-      - item.keyname is string
-    quiet: yes
-  loop: "{{ auditd_rules }}"
-  loop_control:
-    label: "{{ item.file | default('none') }}"
+      - (auditd_buffer_size is integer)
+        or (
+          (auditd_buffer_size is string)
+          and (auditd_buffer_size is regex('^\d+$'))
+        )
+      - (auditd_buffer_size | int) >= 0
+
+- name: Test if auditd_backlog_wait_time is optional integer >=0
   when:
-    - auditd_rules is defined
-    - item.file is defined
-
-- name: Test if item.permission in auditd_rules is set correctly
+    - auditd_backlog_wait_time is defined
+    - auditd_backlog_wait_time not in [none, '']
   ansible.builtin.assert:
     that:
-      - item.permission in [ "attribute_change", "execute", "read", "write" ]
-    quiet: yes
-  loop: "{{ auditd_rules }}"
-  loop_control:
-    label: "{{ item.file | default('none') }}"
+      - (auditd_backlog_wait_time is integer)
+        or (
+          (auditd_backlog_wait_time is string)
+          and (auditd_backlog_wait_time is regex('^\d+$'))
+        )
+      - (auditd_backlog_wait_time | int) >= 0
+
+- name: Test if auditd_fail_mode is optional selection
   when:
-    - auditd_rules is defined
-    - auditd_rules is string
-    - item.permission is defined
-    - item.permission is string
-
-- name: Test if item in auditd_rules is set correctly
+    - auditd_fail_mode is defined
+    - auditd_fail_mode not in [none, '']
   ansible.builtin.assert:
     that:
-      - item.action is defined
-      - item.action is string
-      - item.action in [ "always", "never" ]
-      - item.filter is defined
-      - item.filter is string
-      - item.filter in [ "exclude", "exit", "user" ]
-    quiet: yes
-  loop: "{{ auditd_rules }}"
-  loop_control:
-    label: "{{ item.syscall | default('none') }}"
+      - (auditd_fail_mode is integer)
+        or (
+          (auditd_fail_mode is string)
+          and (auditd_fail_mode is regex('^\d+$'))
+        )
+      - (auditd_fail_mode | int) in [ 0, 1, 2 ]
+    fail_msg: "auditd_fail_mode must be one of '0', '1', '2', was '{{ auditd_fail_mode }}'."
+
+- name: Test if auditd_maximum_rate is optional integer >= 0
   when:
-    - auditd_rules is defined
-    - auditd_rules is string
-    - item.syscall is defined
-    - item.syscall is string
-
-- name: Test if item.filters in auditd_rules is set correctly
+    - auditd_maximum_rate is defined
+    - auditd_maximum_rate not in [none, '']
   ansible.builtin.assert:
     that:
-      - item.filters is iterable
-    quiet: yes
-  loop: "{{ auditd_rules }}"
-  loop_control:
-    label: "{{ item.file | default('none') }}"
+      - (auditd_maximum_rate is integer)
+        or (
+          (auditd_maximum_rate is string)
+          and (auditd_maximum_rate is regex('^\d+$'))
+        )
+      - (auditd_maximum_rate | int) >= 0
+
+- name: Test if auditd_enable_flag is optional selection
   when:
-    - auditd_rules is defined
-    - auditd_rules is string
-    - item.filters is defined
-    - item.filters is string
-
-- name: Test if auditd_disp_qos is set correctly
+    - auditd_enable_flag is defined
+    - auditd_enable_flag not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_disp_qos is defined
+      - (auditd_enable_flag is integer)
+        or (
+          (auditd_enable_flag is string)
+          and (auditd_enable_flag is regex('^\d+$'))
+        )
+      - (auditd_enable_flag | int) in [ 0, 1, 2 ]
+    fail_msg: "auditd_enable_flag must be one of '0', '1', '2', was '{{ auditd_enable_flag }}'."
+
+#
+# auditd.conf settings
+#
+
+- name: Test if auditd_local_events is optional boolean
+  when:
+    - auditd_local_events is defined
+    - auditd_local_events not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_local_events is boolean)
+        or (
+          (auditd_local_events is string)
+          and (auditd_local_events|lower in [ "yes", "no" ])
+        )
+
+- name: Test if auditd_write_logs is optional boolean
+  when:
+    - auditd_write_logs is defined
+    - auditd_write_logs not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_write_logs is boolean)
+        or (
+          (auditd_write_logs is string)
+          and (auditd_write_logs|lower in [ "yes", "no" ])
+        )
+
+- name: Test if auditd_log_file is optional string
+  when:
+    - auditd_log_file is defined
+    - auditd_log_file not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_log_file is string
+
+- name: Test if auditd_log_group is optional string
+  when:
+    - auditd_log_group is defined
+    - auditd_log_group not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_log_group is string
+
+- name: Test if auditd_log_format is optional selection
+  when:
+    - auditd_log_format is defined
+    - auditd_log_format not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_log_format is string
+      - auditd_log_format|lower in [ "enriched", "nolog", "raw" ]
+    fail_msg: "auditd_log_format must be one of 'enriched', 'nolog', 'raw', was '{{ auditd_log_format }}'."
+
+- name: Test if auditd_flush is optional selection
+  when:
+    - auditd_flush is defined
+    - auditd_flush not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_flush is string
+      - auditd_flush|lower in [ "none", "incremental", "incremental_async", "data", "sync" ]
+    fail_msg: "auditd_flush must be one of 'none', 'incremental', 'incremental_async', 'data', 'sync', '{{ auditd_flush }}'."
+
+- name: Test if auditd_freq is optional integer >=0
+  when:
+    - auditd_freq is defined
+    - auditd_freq not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_freq is integer)
+        or (
+          (auditd_freq is string)
+          and (auditd_freq is regex('^\d+$'))
+        )
+      - (auditd_freq | int) >= 0
+
+- name: Test if auditd_max_log_file is optional integer >0
+  when:
+    - auditd_max_log_file is defined
+    - auditd_max_log_file not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_max_log_file is integer)
+        or (
+            (auditd_max_log_file is string)
+            and (auditd_max_log_file is regex('^\d+$'))
+          )
+      - (auditd_max_log_file | int) > 0
+
+- name: Test if auditd_num_logs is optional integer >0 <99
+  when:
+    - auditd_num_logs is defined
+    - auditd_num_logs not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_num_logs is integer)
+        or (
+          (auditd_num_logs is string)
+          and (auditd_num_logs is regex('^\d+$'))
+        )
+      - (auditd_num_logs | int) > 0
+      - (auditd_num_logs | int) < 99
+
+- name: Test if auditd_priority_boost is optional selection
+  when:
+    - auditd_priority_boost is defined
+    - auditd_priority_boost not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_priority_boost is integer)
+        or (
+          (auditd_priority_boost is string)
+          and (auditd_priority_boost is regex('^\d+$'))
+        )
+      - (auditd_priority_boost | int) in [ 0, 1, 2, 3, 4 ]
+    fail_msg: "auditd_priority_boost must be one of '0', '1', '2', '3', '4', was '{{ auditd_priority_boost }}'."
+
+- name: Test if auditd_name_format is optional selection
+  when:
+    - auditd_name_format is defined
+    - auditd_name_format not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_name_format is string
+      - auditd_name_format|lower in [ "none", "hostname", "fqd", "numeric", "user" ]
+    fail_msg: "auditd_name_format must be one of 'none', 'hostname', 'fqd', 'numeric', 'user', was '{{ auditd_name_format }}'."
+
+- name: Test if auditd_name is mandatory string
+  # Is mandatory in this case, there is no default
+  when:
+    - auditd_name_format|lower == "user"
+  ansible.builtin.assert:
+    that:
+      - auditd_name is defined
+      - auditd_name is string
+
+- name: Test if auditd_name is optional string
+  when:
+    - auditd_name is defined
+    - auditd_name not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_name is string
+
+- name: Test if auditd_max_log_file_action is optional selection
+  when:
+    - auditd_max_log_file_action is defined
+    - auditd_max_log_file_action not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_max_log_file_action is string
+      - auditd_max_log_file_action|lower in [ "ignore", "syslog", "suspend", "rotate" ]
+    fail_msg: "auditd_max_log_file_action must be one of 'ignore', 'syslog', 'suspend', 'rotate', '{{ auditd_max_log_file_action }}'."
+
+- name: Test if auditd_space_left is optional integer or percentage >=1 <=99
+  when:
+    - auditd_space_left is defined
+    - auditd_space_left not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_space_left is integer)
+        or (
+          (auditd_space_left is string)
+          and (auditd_space_left is regex('^\d+?$'))
+        )
+        or (
+          (auditd_space_left is string)
+          and (auditd_space_left is regex('^\d+%$'))
+          and (auditd_space_left | int) >= 0
+          and (auditd_space_left | int) <= 100
+        )
+
+- name: Test if auditd_space_left_action is optional selection
+  when:
+    - auditd_space_left_action is defined
+    - auditd_space_left_action not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_space_left_action is string
+      - auditd_space_left_action|lower in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
+    fail_msg: "auditd_space_left_action must be one of 'ignore', 'syslog', 'rotate', 'email', 'exec', 'suspend', 'single', 'halt', '{{ auditd_space_left_action }}'."
+
+- name: Test if auditd_verify_email is optional boolean
+  when:
+    - auditd_verify_email is defined
+    - auditd_verify_email not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_verify_email is boolean)
+        or (
+          (auditd_verify_email is string)
+          and (auditd_verify_email|lower in [ "yes", "no" ])
+        )
+
+- name: Test if auditd_action_mail_acct is optional string
+  when:
+    - auditd_action_mail_acct is defined
+    - auditd_action_mail_acct not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_action_mail_acct is string
+
+- name: Test if auditd_admin_space_left is optional integer or percentage >=1 <=99
+  when:
+    - auditd_admin_space_left is defined
+    - auditd_admin_space_left not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_admin_space_left is integer)
+        or (
+          (auditd_admin_space_left is string)
+          and (auditd_admin_space_left is regex('^\d+?$'))
+        )
+        or (
+          (auditd_admin_space_left is string)
+          and (auditd_admin_space_left is regex('^\d+%$'))
+          and (auditd_admin_space_left | int) >= 0
+          and (auditd_admin_space_left | int) <= 100
+        )
+
+- name: Test if auditd_admin_space_left_action is optional selection
+  when:
+    - auditd_admin_space_left_action is defined
+    - auditd_admin_space_left_action not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_admin_space_left_action is string
+      - auditd_admin_space_left_action|lower in [ "ignore", "syslog", "rotate", "email", "exec", "suspend", "single", "halt" ]
+    fail_msg: "auditd_admin_space_left_action must be one of 'ignore', 'syslog', 'rotate', 'email', 'exec', 'suspend', 'single', 'halt', was '{{ auditd_admin_space_left_action }}'."
+
+- name: Test if auditd_disk_full_action is optional selection
+  when:
+    - auditd_disk_full_action is defined
+    - auditd_disk_full_action not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_disk_full_action is string
+      - auditd_disk_full_action|lower in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
+    fail_msg: "auditd_disk_full_action must be one of 'ignore', 'syslog', 'rotate', 'exec', 'suspend', 'single', 'halt', was '{{ auditd_disk_full_action }}'."
+
+- name: Test if auditd_disk_error_action is optional selection
+  when:
+    - auditd_disk_error_action is defined
+    - auditd_disk_error_action not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_disk_error_action is string
+      - auditd_disk_error_action|lower in [ "ignore", "syslog", "rotate", "exec", "suspend", "single", "halt" ]
+    fail_msg: "auditd_disk_error_action must be one of 'ignore', 'syslog', 'rotate', 'exec', 'suspend', 'single', 'halt', was '{{ auditd_disk_error_action }}'."
+
+- name: Test if auditd_use_libwrap is optional boolean
+  when:
+    - auditd_use_libwrap is defined
+    - auditd_use_libwrap not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_use_libwrap is boolean)
+        or (
+          (auditd_use_libwrap is string)
+          and (auditd_use_libwrap|lower in [ "yes", "no" ])
+        )
+
+- name: Test if auditd_tcp_listen_port is optional integer >=1 <= 65535
+  when:
+    - auditd_tcp_listen_port is defined
+    - auditd_tcp_listen_port not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_tcp_listen_port is integer)
+        or (
+          (auditd_tcp_listen_port is string)
+          and (auditd_tcp_listen_port is regex('^\d+$'))
+        )
+      - (auditd_tcp_listen_port | int) >= 1
+      - (auditd_tcp_listen_port | int) <= 65535
+
+- name: Test if auditd_tcp_listen_queue is optional integer >= 0
+  when:
+    - auditd_tcp_listen_queue is defined
+    - auditd_tcp_listen_queue not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_tcp_listen_queue is integer)
+        or (
+          (auditd_tcp_listen_queue is string)
+          and (auditd_tcp_listen_queue is regex('^\d+$'))
+        )
+      - (auditd_tcp_listen_queue | int) >= 0
+
+- name: Test if auditd_tcp_max_per_addr is optional integer >=0 <=1024
+  when:
+    - auditd_tcp_max_per_addr is defined
+    - auditd_tcp_max_per_addr not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_tcp_max_per_addr is integer)
+        or (
+          (auditd_tcp_max_per_addr is string)
+          and (auditd_tcp_max_per_addr is regex('^\d+$'))
+        )
+      - (auditd_tcp_max_per_addr | int) >= 0
+      - (auditd_tcp_max_per_addr | int) <= 1024
+
+- name: Test if auditd_tcp_client_ports is optional integer >= 1 <= 65535 or respective range
+  when:
+    - auditd_tcp_client_ports is defined
+    - auditd_tcp_client_ports not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (
+          (
+            (auditd_tcp_client_ports is integer)
+            or (
+              (auditd_tcp_client_ports is string)
+              and (auditd_tcp_client_ports is regex('^\d+$'))
+            )
+          )
+          and (auditd_tcp_client_ports | int) >= 1
+          and (auditd_tcp_client_ports | int) <= 65535
+        )
+        or (
+          auditd_tcp_client_ports is string
+          and auditd_tcp_client_ports is regex('^\d+-\d+$')
+          and (_auditd_assert_tcp_client_ports_lo | int) >= 1
+          and (_auditd_assert_tcp_client_ports_lo | int) <= 65535
+          and (_auditd_assert_tcp_client_ports_hi | int) >= 1
+          and (_auditd_assert_tcp_client_ports_hi | int) <= 65535
+          and (_auditd_assert_tcp_client_ports_lo | int) <= (_auditd_assert_tcp_client_ports_hi | int)
+        )
+  vars:
+    _auditd_assert_tcp_client_ports_lo: >-
+      {{ auditd_tcp_client_ports | regex_replace('-\d+$', '') | default('') }}
+    _auditd_assert_tcp_client_ports_hi: >-
+      {{ auditd_tcp_client_ports | regex_replace('^\d+-', '') | default('') }}
+
+- name: Test if auditd_tcp_client_max_idle is optional integer >=0
+  when:
+    - auditd_tcp_client_max_idle is defined
+    - auditd_tcp_client_max_idle not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_tcp_client_max_idle is integer)
+        or (
+          (auditd_tcp_client_max_idle is string)
+          and (auditd_tcp_client_max_idle is regex('^\d+$'))
+        )
+      - (auditd_tcp_client_max_idle | int) >= 0
+
+- name: Test if auditd_transport is optional selection
+  when:
+    - auditd_transport is defined
+    - auditd_transport not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_transport is string
+      - auditd_transport|lower in [ "tcp", "krb5" ]
+    fail_msg: "auditd_transport must be one of 'tcp', 'krb5', was '{{ auditd_transport }}'."
+
+- name: Test if auditd_enable_krb5 is optional boolean
+  when:
+    - auditd_enable_krb5 is defined
+    - auditd_enable_krb5 not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_enable_krb5 is boolean)
+        or (
+          (auditd_enable_krb5 is string)
+          and (auditd_enable_krb5|lower in [ "yes", "no" ])
+        )
+
+- name: Test if auditd_krb5_principal is optional string
+  when:
+    - auditd_krb5_principal is defined
+    - auditd_krb5_principal not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_krb5_principal is string
+
+- name: Test if auditd_krb5_key_file is optional string
+  when:
+    - auditd_krb5_key_file is defined
+    - auditd_krb5_key_file not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_krb5_key_file is string
+
+- name: Test if auditd_distribute_network is optional boolean
+  when:
+    - auditd_distribute_network is defined
+    - auditd_distribute_network not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_distribute_network is boolean)
+        or (
+          (auditd_distribute_network is string)
+          and (auditd_distribute_network|lower in [ "yes", "no" ])
+        )
+
+- name: Test if auditd_q_depth is optional integer >= 0 <= 99999
+  when:
+    - auditd_q_depth is defined
+    - auditd_q_depth not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_q_depth is integer)
+        or (
+          (auditd_q_depth is string)
+          and (auditd_q_depth is regex('^\d+$'))
+        )
+      - (auditd_q_depth | int) >= 0
+      - (auditd_q_depth | int) <= 99999
+
+- name: Test if auditd_overflow_action is optional selection
+  when:
+    - auditd_overflow_action is defined
+    - auditd_overflow_action not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_overflow_action is string
+      - auditd_overflow_action|lower in [ "ignore", "syslog", "suspend", "single", "halt" ]
+    fail_msg: "auditd_overflow_action must be one of 'ignore', 'syslog', 'suspend', 'single', 'halt', was '{{ auditd_overflow_action }}'."
+
+- name: Test if auditd_max_restarts is optional integer >=0
+  when:
+    - auditd_max_restarts is defined
+    - auditd_max_restarts not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_max_restarts is integer)
+        or (
+          (auditd_max_restarts is string)
+          and (auditd_max_restarts is regex('^\d+$'))
+        )
+      - (auditd_max_restarts | int) >= 0
+
+- name: Test if auditd_plugin_dir is optional string
+  when:
+    - auditd_plugin_dir is defined
+    - auditd_plugin_dir not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - auditd_plugin_dir is string
+
+- name: Test if auditd_disp_qos is optional selection
+  when:
+    - auditd_disp_qos is defined
+    - auditd_disp_qos not in [none, '']
+  ansible.builtin.assert:
+    that:
       - auditd_disp_qos is string
-      - auditd_disp_qos in [ "lossy", "lossless" ]
-    fail_msg: "auditd_disp_qos must be one of 'lossy', 'lossless'."
-    quiet: yes
+      - auditd_disp_qos|lower in [ "lossy", "lossless" ]
+    fail_msg: "auditd_disp_qos must be one of 'lossy', 'lossless', was '{{ auditd_disp_qos }}'."
 
-- name: Test if auditd_dispatcher is set correctly
+- name: Test if auditd_dispatcher is optional string
+  when:
+    - auditd_dispatcher is defined
+    - auditd_dispatcher not in [none, '']
   ansible.builtin.assert:
     that:
-      - auditd_dispatcher is defined
       - auditd_dispatcher is string
-    quiet: yes
+
+- name: Test if auditd_end_of_event_timeout is optional integer >=0
+  when:
+    - auditd_end_of_event_timeout is defined
+    - auditd_end_of_event_timeout not in [none, '']
+  ansible.builtin.assert:
+    that:
+      - (auditd_end_of_event_timeout is integer)
+        or (
+          (auditd_end_of_event_timeout is string)
+          and (auditd_end_of_event_timeout is regex('^\d+$'))
+        )
+      - (auditd_end_of_event_timeout | int) >= 0
+
+#
+# audit rules
+#
+
+- name: Block auditd_rules is defined
+  when:
+    - auditd_rules is defined
+
+  block:
+    - name: Test if auditd_rules is set correctly
+      ansible.builtin.assert:
+        that:
+          - auditd_rules is iterable
+          - (_auditd_assert_comments | select("string")) == _auditd_assert_comments
+          - (_auditd_assert_comment_styles | select("regex", "^#[^\n]*$")) == _auditd_assert_comment_styles
+          - (_auditd_assert_file_rules | select("string")) == _auditd_assert_file_rules
+          - (_auditd_assert_keyname_rules | select("string")) == _auditd_assert_keyname_rules
+          - (_auditd_assert_permission_rules | select("string") | map("lower") | select("in", _auditd_assert_permission_values)) == _auditd_assert_permission_rules
+          - (_auditd_assert_filters_rules | select("iterable") | reject("string") | map("select", "string")) == _auditd_assert_filters_rules
+          - (_auditd_assert_comparisons_rules | select("iterable")) == _auditd_assert_comparisons_rules
+          - (_auditd_assert_syscall_rules | select("string")) == _auditd_assert_syscall_rules
+          # use full rules to ensure each item has both attributes
+          - _auditd_assert_syscall_full_rules == _auditd_assert_action_full_rules
+          - _auditd_assert_syscall_full_rules == _auditd_assert_filter_full_rules
+          - (_auditd_assert_filter_rules | select("string") | map("lower") | select("in", _auditd_assert_filter_values)) == _auditd_assert_filter_rules
+          - (_auditd_assert_filter_rules | select("string") | map("lower") ) == _auditd_assert_filter_rules
+          - (_auditd_assert_action_rules | select("string") | map("lower") | select("in", _auditd_assert_action_values)) == _auditd_assert_action_rules
+      vars:
+        # per attibute create list of rules where attribute is mapped
+        _auditd_assert_comments: >-
+          {{ auditd_rules | selectattr("comment", "defined") | map(attribute="comment") | list }}
+        _auditd_assert_comment_styles: >-
+          {{ auditd_rules | selectattr("comment_style", "defined") | map(attribute="comment_style") | list }}
+        _auditd_assert_file_rules: >-
+          {{ auditd_rules | selectattr("file", "defined") | map(attribute="file") | list }}
+        _auditd_assert_keyname_rules: >-
+          {{ auditd_rules | selectattr("keyname", "defined") | map(attribute="keyname") | list }}
+        _auditd_assert_permission_rules: >-
+          {{ auditd_rules | selectattr("permission", "defined") | map(attribute="permission") | list }}
+        _auditd_assert_filters_rules: >-
+          {{ auditd_rules | selectattr("filters", "defined") | map(attribute="filters") | list }}
+        _auditd_assert_comparisons_rules: >-
+          {{ auditd_rules | selectattr("comparisons", "defined") | map(attribute="comparisons") | list }}
+        # per attibute with extra values create full list w/o attribute being mapped
+        _auditd_assert_syscall_full_rules: >-
+          {{ auditd_rules | selectattr("syscall", "defined") | list }}
+        _auditd_assert_syscall_rules: >-
+          {{ _auditd_assert_syscall_full_rules | map(attribute="syscall") | list }}
+        _auditd_assert_action_full_rules: >-
+          {{ _auditd_assert_syscall_full_rules | selectattr("action", "defined") | list }}
+        _auditd_assert_action_rules: >-
+          {{ _auditd_assert_action_full_rules | map(attribute="action") | list }}
+        _auditd_assert_filter_full_rules: >-
+          {{ _auditd_assert_syscall_full_rules | selectattr("filter", "defined") | list }}
+        _auditd_assert_filter_rules: >-
+          {{ _auditd_assert_filter_full_rules | map(attribute="filter") | list }}
+        _auditd_assert_action_values:
+          - always
+          - never
+        _auditd_assert_filter_values:
+          - exclude
+          - exit
+          - user
+        _auditd_assert_permission_values:
+          - attribute_change
+          - execute
+          - read
+          - write

@@ -1,0 +1,54 @@
+---
+- name: Get auditctl status
+  ansible.builtin.command:
+    cmd: /usr/sbin/auditctl -s
+  changed_when: false
+  check_mode: false
+  register: r_auditctl_status
+
+- name: Block Ensure auditctl status matches configuration
+  vars:
+    auditctl_status_settings: >-
+      {{ dict(r_auditctl_status.stdout_lines | map('regex_findall', '^([^ ]+) (.*)') | map('flatten')) }}
+  block:
+    # pid=0, auditd not running, require it to be running
+    - name: Ensure auditd is running
+      ansible.builtin.assert:
+        that:
+          - auditctl_status_settings['pid']|int > 0
+
+    # Handle enabled differently than others. Assume if auditd_enable_flag is
+    # not set, our default is enabled still. Or if set, then ensure it matches
+    # what we have configured.
+    - name: Ensure auditctl status matches auditd_enable_flag
+      vars:
+        _auditd_enable_flag_assumed: >-
+          {{ (auditd_enable_flag not in [none, '']) | ternary(auditd_enable_flag | int, 1, 1) }}
+      ansible.builtin.assert:
+        that:
+          - (
+              (auditd_enable_flag is defined)
+              and (auditd_enable_flag not in [none, ''])
+              and ((auditctl_status_settings['enabled'] | int) == (auditd_enable_flag | int))
+            ) or ((auditctl_status_settings['enabled'] | int) >= 1)
+        fail_msg: "enabled: runtime={{ auditctl_status_settings['enabled'] | int }} does not meet configuration={{ _auditd_enable_flag_assumed | int }}"
+
+    # Ensure defined settings match current configuration. If not defined any
+    # value suffices.
+    - name: Ensure auditctl status matches configuration
+      when:
+        - item.configuration in vars
+        - vars[item.configuration] not in [none, '']
+      ansible.builtin.assert:
+        that:
+          - (auditctl_status_settings[item.runtime] | int) == (vars[item.configuration] | int)
+        fail_msg: "{{ item.runtime }}: runtime={{ auditctl_status_settings[item.runtime] | int }} does not meet configuration={{ vars[item.configuration] | int }}"
+      loop:
+        - runtime: backlog_limit
+          configuration: auditd_buffer_size
+        - runtime: backlog_wait_time
+          configuration: auditd_backlog_wait_time
+        - runtime: failure
+          configuration: auditd_fail_mode
+        - runtime: rate_limit
+          configuration: auditd_maximum_rate

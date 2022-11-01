@@ -1,0 +1,62 @@
+---
+# Because use https://www.samdarwin.com/ansible-default-vars/
+# any variable with:
+#   default_auditd_
+# acts as per distro defaut variable
+
+# This configuration tries to follow Fedora upstream default configuration as
+# far as possible.
+
+# Fedora values are in upcase
+auditd_use_upper_values: true
+auditd_rules_file: audit.rules
+
+# Defaults
+default_auditd_buffer_size: null
+default_auditd_backlog_wait_time: null
+default_auditd_fail_mode: null
+default_auditd_maximum_rate: null
+default_auditd_enable_flag: null
+default_auditd_rules:
+  - action: never
+    filter: task
+    comment: |-
+      This suppresses syscall auditing for all tasks started
+      with this rule in effect.  Remove it if you need syscall
+      auditing.
+    comment_style: '## '
+
+default_auditd_log_format: ENRICHED
+default_auditd_flush: INCREMENTAL_ASYNC
+default_auditd_space_left_action: SYSLOG
+default_auditd_admin_space_left_action: SUSPEND
+default_auditd_disk_full_action: SUSPEND
+default_auditd_disk_error_action: SUSPEND
+default_auditd_name_format: NONE
+default_auditd_max_log_file_action: ROTATE
+default_auditd_transport: TCP
+default_auditd_q_depth: 2000
+default_auditd_overflow_action: SYSLOG
+default_auditd_max_restarts: 10
+default_auditd_plugin_dir: /etc/audit/plugins.d
+default_auditd_end_of_event_timeout: 2
+default_auditd_enable_krb5: null
+
+# These are deprecated, drop them
+auditd_config_deprecated_settings:
+  - auditd_disp_qos
+  - auditd_dispatcher
+
+auditd_disp_qos: null
+auditd_dispatcher: null
+
+# Use compiled in defaults, comment out
+default_auditd_name: mydomain
+default_auditd_tcp_listen_port: 60
+default_auditd_tcp_client_ports: "1024-65535"
+default_auditd_krb5_key_file: "/etc/audit/audit.key"
+auditd_config_commented_out_settings:
+  - auditd_name
+  - auditd_tcp_listen_port
+  - auditd_tcp_client_ports
+  - auditd_krb5_key_file

@@ -1,0 +1,49 @@
+---
+# defaults file for auditd
+
+default_auditd_buffer_size: 32768
+# Not supported on all configurations
+default_auditd_backlog_wait_time: null
+default_auditd_fail_mode: 1
+default_auditd_maximum_rate: 60
+default_auditd_enable_flag: 1
+
+default_auditd_local_events: "yes"
+default_auditd_log_file: /var/log/audit/audit.log  # check
+default_auditd_write_logs: "yes"
+default_auditd_log_group: root
+default_auditd_log_format: RAW  # check
+default_auditd_flush: incremental_async
+default_auditd_freq: 50  # check
+default_auditd_max_log_file: 8  # check
+default_auditd_num_logs: 5
+default_auditd_priority_boost: 4
+default_auditd_disp_qos: lossy
+default_auditd_dispatcher: /sbin/audispd
+default_auditd_name: null
+default_auditd_name_format: null
+default_auditd_max_log_file_action: rotate
+default_auditd_space_left: 75
+default_auditd_space_left_action: syslog
+default_auditd_verify_email: "yes"
+default_auditd_action_mail_acct: root
+default_auditd_admin_space_left: 50
+default_auditd_admin_space_left_action: suspend
+default_auditd_disk_full_action: suspend
+default_auditd_disk_error_action: suspend
+default_auditd_use_libwrap: "yes"
+default_auditd_tcp_listen_queue: 5
+default_auditd_tcp_listen_port: null
+default_auditd_tcp_max_per_addr: 1
+default_auditd_tcp_client_max_idle: 0
+default_auditd_tcp_client_ports: null
+default_auditd_enable_krb5: "no"
+default_auditd_krb5_principal: auditd
+default_auditd_krb5_key_file: null
+default_auditd_distribute_network: "no"
+default_auditd_transport: null
+default_auditd_q_depth: null
+default_auditd_overflow_action: null
+default_auditd_max_restarts: null
+default_auditd_plugin_dir: null
+default_auditd_end_of_event_timeout: null

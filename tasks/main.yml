@@ -1,20 +1,98 @@
 ---
 # tasks file for auditd
 
+- name: Include var _auditd_var_files
+  vars:
+    _auditd_var_files:
+      - defaults.yml
+      - "{{ ansible_facts['os_family'] }}.yml"
+      - "{{ ansible_facts['distribution'] }}.yml"
+      - >-
+        {{ ansible_facts['distribution'] ~ '_' ~
+        ansible_facts['distribution_major_version'] }}.yml
+      - >-
+        {{ ansible_facts['distribution'] ~ '_' ~
+        ansible_facts['distribution_version'] }}.yml
+  tags:
+    - always
+  block:
+    - name: Set platform/version specific variables
+      ansible.builtin.include_vars: "{{ __auditd_vars_file }}"
+      loop: "{{ _auditd_var_files | unique }}"
+      vars:
+        __auditd_vars_file: "{{ role_path }}/vars/{{ item }}"
+      when: __auditd_vars_file is file
+      tags:
+        - always
+
+# code from https://www.samdarwin.com/ansible-default-vars/
+# This 'is not defined'
+#   precedence: 19. set_facts / registered vars
+# allows nicely to define per distro defaults in role/vars above
+#   precedence: 18. include_vars
+# But still use task vars in import_role
+#   precedence: 17. task vars (only for the task)
+# Common defaults are set:
+#   precedence: 2. role defaults (defined in role/defaults/main.yml)
+#   precedence: 15. role vars (defined in role/vars/main.yml)
+#
+# from_yaml | to_json: keeps type fixed
+- name: Set facts based on defaults
+  when:
+    - vars[item[8:]] is not defined
+    - item[8:] not in auditd_config_commented_out_settings
+  ansible.builtin.set_fact:
+    # 12345678
+    # default_
+    "{{ item[8:] }}": "{{ vars[item] }}"
+  loop: "{{ vars | select('match', '^default_auditd_') | list }}"
+  tags:
+    - always
+
 - name: Import assert.yml
   ansible.builtin.import_tasks: assert.yml
-  run_once: yes
-  delegate_to: localhost
+  # Settings depend on os/version, so no run_once
+  # run_once: yes
+  # delegate_to: localhost
+  module_defaults:
+    ansible.builtin.assert:
+      quiet: yes
+  tags:
+    - assert_parameters
+
+- name: Import cmdline.yml
+  ansible.builtin.import_tasks: cmdline.yml
+  module_defaults:
+    ansible.builtin.assert:
+      quiet: yes
+  # It is not feasible to test kernel cmdline
+  tags:
+    - notest
 
 - name: Install requirements
   ansible.builtin.package:
-    name: bash
+    name: "{{ ['bash'] + auditd_packages | list }}"
     state: present
 
-- name: Install audit
-  ansible.builtin.package:
-    name: "{{ auditd_packages }}"
-    state: present
+- name: "Create directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0750"
+  loop:
+    - "{{ auditd_config_directory }}"
+    - "{{ auditd_config_directory }}/rules.d"
+
+- name: Ensure auditd_krb5_key_file exists with right mode, if defined
+  when:
+    - auditd_enable_krb5 is sameas true | default(false)
+    - auditd_krb5_key_file is defined
+    - auditd_krb5_key_file not in [none, '']
+  ansible.builtin.file:
+    path: "{{ auditd_krb5_key_file }}"
+    mode: "0400"
+    owner: root
+    group: root
 
 - name: Configure auditd
   ansible.builtin.template:
@@ -24,17 +102,11 @@
   notify:
     - Restart auditd
 
-- name: Create rules.d directory
-  ansible.builtin.file:
-    path: "{{ auditd_config_directory }}/rules.d"
-    state: directory
-    mode: "0750"
-
 - name: Place custom.rules
   ansible.builtin.template:
     src: custom.rules.j2
-    dest: "{{ auditd_config_directory }}/rules.d/custom.rules"
-    mode: "0664"
+    dest: "{{ auditd_config_directory }}/rules.d/{{ auditd_rules_file }}"
+    mode: "0640"
   notify:
     - Run augenrules
   when:
@@ -45,3 +117,13 @@
     name: "{{ auditd_service }}"
     state: started
     enabled: yes
+
+# Need to flush handlers to allow to check runtime settings next
+- name: Flush pending auditd updates
+  ansible.builtin.meta: flush_handlers
+
+- name: Import status_check.yml
+  ansible.builtin.import_tasks: status_check.yml
+  module_defaults:
+    ansible.builtin.assert:
+      quiet: yes
