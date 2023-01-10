@@ -17,6 +17,5 @@
   ansible.builtin.service:
     name: "{{ auditd_service }}"
     state: restarted
-    use: service
   when:
     - not ansible_check_mode
