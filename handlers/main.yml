@@ -13,10 +13,9 @@
   when:
     - ansible_connection not in [ "container", "docker", "community.docker.docker" ]
 
-- name: Restart auditd
-  ansible.builtin.service:
-    name: "{{ auditd_service }}"
-    state: restarted
-    use: service
+# systemctl can't restart auditd, service can: https://access.redhat.com/solutions/2664811
+- name: Restart auditd  # noqa: command-instead-of-module
+  ansible.builtin.command:
+    cmd: /usr/sbin/service {{ auditd_service }} restart
   when:
     - not ansible_check_mode
