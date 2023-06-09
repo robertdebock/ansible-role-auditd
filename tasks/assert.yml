@@ -54,6 +54,7 @@
     that:
       - auditd_log_file is defined
       - auditd_log_file is string
+      - auditd_log_file is not none
     quiet: yes
 
 - name: assert | Test if auditd_log_group is set correctly
@@ -61,6 +62,7 @@
     that:
       - auditd_log_group is defined
       - auditd_log_group is string
+      - auditd_log_group is not none
     quiet: yes
 
 - name: assert | Test if auditd_log_format is set correctly
@@ -158,6 +160,7 @@
     that:
       - auditd_action_mail_acct is defined
       - auditd_action_mail_acct is string
+      - auditd_action_mail_acct is not none
     quiet: yes
 
 - name: assert | Test if auditd_admin_space_left is set correctly
@@ -239,6 +242,7 @@
     that:
       - auditd_krb5_principal is defined
       - auditd_krb5_principal is string
+      - auditd_krb5_principal is not none
     quiet: yes
 
 - name: assert | Test if auditd_distribute_network is set correctly
@@ -269,6 +273,7 @@
     that:
       - item.keyname is defined
       - item.keyname is string
+      - item.keyname is not none
     quiet: yes
   loop: "{{ auditd_rules }}"
   loop_control:
@@ -338,4 +343,5 @@
     that:
       - auditd_dispatcher is defined
       - auditd_dispatcher is string
+      - auditd_dispatcher is not none
     quiet: yes
