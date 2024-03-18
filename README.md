@@ -14,8 +14,8 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 ---
 - name: Converge
   hosts: all
-  become: yes
-  gather_facts: yes
+  become: true
+  gather_facts: true
 
   roles:
     - role: robertdebock.auditd
@@ -78,8 +78,8 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
 ---
 - name: Prepare
   hosts: all
-  become: yes
-  gather_facts: no
+  become: true
+  gather_facts: false
 
   roles:
     - role: robertdebock.bootstrap
@@ -131,7 +131,7 @@ auditd_enable_krb5: "no"
 auditd_krb5_principal: auditd
 auditd_distribute_network: "no"
 
-auditd_manage_rules: yes
+auditd_manage_rules: true
 
 auditd_default_arch: b64
 ```
