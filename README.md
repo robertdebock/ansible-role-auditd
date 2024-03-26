@@ -19,6 +19,7 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 
   roles:
     - role: robertdebock.auditd
+      auditd_start_service: false
       auditd_local_events: "no"
       auditd_rules:
         - file: /var/log/audit/
