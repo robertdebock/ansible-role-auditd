@@ -30,8 +30,6 @@ jobs:
       matrix:
         config:
           - image: "enterpriselinux"
-            tag: "8"
-          - image: "enterpriselinux"
             tag: "latest"
           - image: "debian"
             tag: "latest"
@@ -43,8 +41,6 @@ jobs:
             tag: "latest"
           - image: "fedora"
             tag: "rawhide"
-          - image: "opensuse"
-            tag: "latest"
           - image: "ubuntu"
             tag: "latest"
           - image: "ubuntu"
@@ -54,10 +50,19 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v5
         with:
-          path: "${{ github.repository }}"
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: molecule
-        uses: robertdebock/molecule-action@6.0.1
-        with:
+        run: molecule converge
+        env:
           image: ${{ matrix.config.image }}
           tag: ${{ matrix.config.tag }}

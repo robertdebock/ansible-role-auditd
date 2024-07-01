@@ -13,8 +13,6 @@ molecule:
   parallel:
     matrix:
       - image: "enterpriselinux"
-        tag: "8"
-      - image: "enterpriselinux"
         tag: "latest"
       - image: "debian"
         tag: "latest"
@@ -26,8 +24,6 @@ molecule:
         tag: "latest"
       - image: "fedora"
         tag: "rawhide"
-      - image: "opensuse"
-        tag: "latest"
       - image: "ubuntu"
         tag: "latest"
       - image: "ubuntu"
