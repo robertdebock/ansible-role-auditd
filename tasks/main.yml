@@ -41,6 +41,16 @@
   when:
     - auditd_manage_rules
 
+- name: Configure syslog plugin for auditd
+  community.general.ini_file:
+    path: "{{ auditd_config_directory }}/plugins.d/syslog.conf"
+    option: "{{ item.key }}"
+    value: "{{ item.value }}"
+    mode: '0640'
+    state: present
+  loop: "{{ auditd_plugin_syslog | dict2items }}"
+  when: auditd_plugin_syslog is defined
+
 - name: Start and enable auditd
   ansible.builtin.service:
     name: "{{ auditd_service }}"

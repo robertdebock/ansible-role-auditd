@@ -48,3 +48,13 @@ auditd_default_arch: b64
 # You can opt to start the auditd service or not.
 # Mostly useful in CI, to avoid starting the service.
 auditd_start_service: true
+
+# See below an example of the configuration of the syslog plugin
+# No other plugins are supported currently
+# auditd_plugin_syslog:
+#   active: "yes"
+#   direction: out
+#   path: /sbin/audisp-syslog
+#   type: always
+#   args: LOG_LOCAL0
+#   format: string
