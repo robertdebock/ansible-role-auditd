@@ -143,6 +143,17 @@ auditd_default_arch: b64
 # You can opt to start the auditd service or not.
 # Mostly useful in CI, to avoid starting the service.
 auditd_start_service: true
+
+# This section includes configuration for the syslog plugin
+# The role will loop through the dict and for each item it
+# will create\update a property of the same name in the
+# plugins.d/syslog.conf file
+auditd_plugin_syslog:
+  active: "yes"
+  direction: out
+  path: /sbin/audisp-syslog
+  type: always
+
 ```
 
 ## [Requirements](#requirements)
