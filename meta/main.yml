@@ -5,26 +5,30 @@ galaxy_info:
   description: Install and configure auditd on your system.
   license: Apache-2.0
   company: none
-  min_ansible_version: "2.12"
-
+  min_ansible_version: '2.12'
   platforms:
-    - name: EL
+    - name: Amazon
       versions:
-        - "9"
+        - Candidate
     - name: Debian
       versions:
-        - all
+        - bullseye
+        - bookworm
+        - trixie
+    - name: EL
+      versions:
+        - '9'
     - name: Fedora
       versions:
-        - all
+        - '42'
+        - '40'
     - name: Ubuntu
       versions:
-        - all
-
+        - jammy
+        - noble
   galaxy_tags:
     - auditd
     - system
     - monitoring
     - security
-
 dependencies: []
