@@ -19,8 +19,6 @@ molecule:
     - if: $CI_COMMIT_REF_NAME == "master"
   parallel:
     matrix:
-      - image: "amazonlinux"
-        tag: "latest"
       - image: "debian"
         tag: "bullseye"
       - image: "debian"
@@ -31,8 +29,6 @@ molecule:
         tag: "latest"
       - image: "fedora"
         tag: "latest"
-      - image: "fedora"
-        tag: "40"
       - image: "ubuntu"
         tag: "jammy"
       - image: "ubuntu"

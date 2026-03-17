@@ -7,9 +7,6 @@ galaxy_info:
   company: none
   min_ansible_version: '2.12'
   platforms:
-    - name: Amazon
-      versions:
-        - Candidate
     - name: Debian
       versions:
         - bullseye
@@ -20,8 +17,7 @@ galaxy_info:
         - '9'
     - name: Fedora
       versions:
-        - '42'
-        - '40'
+        - all
     - name: Ubuntu
       versions:
         - jammy
