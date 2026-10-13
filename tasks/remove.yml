@@ -1,0 +1,38 @@
+---
+# Tasks to uninstall auditd. Run the role with `--tags remove`.
+
+- name: remove | Disable logging and delete the loaded rules
+  ansible.builtin.command:
+    cmd: "{{ item }}"
+  loop:
+    - auditctl -e 0
+    - auditctl -D
+  changed_when: true
+  failed_when: false  # The service may already be gone.
+
+- name: remove | Disable and stop auditd
+  ansible.builtin.service:
+    name: "{{ auditd_service }}"
+    enabled: false
+    state: stopped
+  failed_when: false  # The service may already be stopped or removed.
+
+- name: remove | Remove rules.d
+  ansible.builtin.file:
+    path: "{{ auditd_config_directory }}/rules.d"
+    state: absent
+
+- name: remove | Remove the audit packages and their configuration (APT)
+  ansible.builtin.apt:
+    name: "{{ auditd_packages }}"
+    state: absent
+    purge: true
+  when:
+    - ansible_facts['pkg_mgr'] == 'apt'
+
+- name: remove | Remove the audit packages
+  ansible.builtin.package:
+    name: "{{ auditd_packages }}"
+    state: absent
+  when:
+    - ansible_facts['pkg_mgr'] != 'apt'
