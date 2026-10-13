@@ -13,6 +13,7 @@
     cmd: augenrules --load
   changed_when: true
   when:
+    - auditd_start_service
     - ansible_connection not in [ "container", "docker", "community.docker.docker" ]
 
 - name: Restart auditd
