@@ -134,6 +134,8 @@
   ansible.builtin.assert:
     that:
       - auditd_space_left is defined
+      - auditd_space_left | string is match('^([0-9]+|[1-9][0-9]?%)$')
+    fail_msg: "auditd_space_left must be a number of megabytes, or a percentage between 1% and 99%."
     quiet: true
 
 - name: assert | Test auditd_space_left_action
