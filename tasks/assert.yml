@@ -257,6 +257,13 @@
       - auditd_manage_rules is boolean
     quiet: true
 
+- name: assert | Test auditd_purge_existing_rules
+  ansible.builtin.assert:
+    that:
+      - auditd_purge_existing_rules is defined
+      - auditd_purge_existing_rules is boolean
+    quiet: true
+
 - name: assert | Test auditd_rules
   ansible.builtin.assert:
     that:

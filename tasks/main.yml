@@ -31,6 +31,26 @@
     state: directory
     mode: "0750"
 
+- name: Find rules files that are not managed by this role
+  ansible.builtin.find:
+    paths: "{{ auditd_config_directory }}/rules.d"
+    file_type: file
+    excludes:
+      - custom.rules
+  register: auditd_unmanaged_rules
+  when:
+    - auditd_purge_existing_rules
+
+- name: Remove rules files that are not managed by this role
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ auditd_unmanaged_rules.files | default([]) }}"
+  loop_control:
+    label: "{{ item.path }}"
+  notify:
+    - Run augenrules
+
 - name: Place custom.rules
   ansible.builtin.template:
     src: custom.rules.j2

@@ -136,6 +136,10 @@ auditd_distribute_network: "no"
 # Setting auditd_manage_rules to false will not manage the rules.
 auditd_manage_rules: true
 
+# Delete the files in rules.d that this role does not manage (everything except
+# custom.rules), so that only the rules defined here are loaded.
+auditd_purge_existing_rules: false
+
 # Some rules require a specific architecture to be set.
 auditd_default_arch: b64
 
