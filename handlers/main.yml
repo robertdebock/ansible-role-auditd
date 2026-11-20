@@ -4,14 +4,16 @@
 - name: Run augenrules
   ansible.builtin.command:
     cmd: augenrules
-  changed_when: true
+  changed_when:
+    - true
   notify:
     - Load rules
 
 - name: Load rules
   ansible.builtin.command:
     cmd: augenrules --load
-  changed_when: true
+  changed_when:
+    - true
   when:
     - ansible_connection not in [ "container", "docker", "community.docker.docker" ]
 
